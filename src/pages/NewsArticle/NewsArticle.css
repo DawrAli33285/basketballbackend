@@ -1,0 +1,21 @@
+.news-article-description h3 {
+  color: #000;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 42px;
+}
+
+.news-article-description p {
+  color: #000;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 42px;
+}
+
+.news-article-description .profile--link {
+  color: #ffb900;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 42px;
+  text-decoration-line: underline;
+}

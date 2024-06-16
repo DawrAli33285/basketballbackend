@@ -1,0 +1,9 @@
+.play-icon {
+  border-radius: 50px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(229, 229, 229, 0.5) 100%
+  );
+  backdrop-filter: blur(17px);
+}
