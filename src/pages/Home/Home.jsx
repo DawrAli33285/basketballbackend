@@ -8,8 +8,17 @@ import AllNewsArea from "../../components/Home/AllNewsArea/AllNewsArea";
 import ClassPlayerArea from "../../components/Home/ClassPlayerArea/ClassPlayerArea";
 import ReviewArea from "../../components/Home/ReviewArea/ReviewArea";
 import HowItWorks from "../../components/Home/HowItWorks/HowItWorks";
-
+import axios from "axios";
+import React from "react";
+import { BASE_URL } from "../../baseurl/baseurl";
 const Home = () => {
+  React.useEffect(()=>{
+getFirst();
+  },[])
+  const getFirst=async()=>{
+let response=await axios.get(`${BASE_URL}/`)
+console.log(response)
+  }
   return (
     <div>
       <LaunchEvent />
