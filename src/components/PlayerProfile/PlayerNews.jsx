@@ -8,11 +8,13 @@ const PlayerNews = ({ newsFeedData }) => {
       <div className="flex flex-col gap-4">
         {newsFeedData && newsFeedData.length > 0 ? (
           newsFeedData.map((item, index) => {
-            const formattedDate = new Date(item.createdAt).toLocaleDateString();
+            const newsDate = new Date(item.createdAt);
+            
+            const formattedDate = `${newsDate.getMonth() + 1}/${newsDate.getDate()}/${newsDate.getFullYear()}`;
 
             return (
               <div
-              onClick={() => navigate(`/news-article/${item?.id}`)}
+              onClick={() => navigate(`/news-article/${item?._id}`)}
               className=" cursor-pointer p-3 bg-[#fff] flex items-center flex-col lg:flex-row gap-2.5 rounded-xl shadow-[0px_0px_13px_0px_rgba(0,0,0,0.05)] space-y-2.5"
               key={index}
             >

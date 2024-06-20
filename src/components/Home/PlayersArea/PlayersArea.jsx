@@ -3,16 +3,13 @@ import SectionTop from "../SectionTop/SectionTop";
 import PlayerCard from "./PlayerCard";
 import Select from "react-select";
 
-const PlayersArea = () => {
-  const [players, setPlayers] = useState(null);
-
-  useEffect(() => {
-    fetch("/players.json")
-      .then((res) => res.json())
-      .then((data) => setPlayers(data));
-  }, []);
+const PlayersArea = ({players,setState}) => {
+const [playerClass,setClass]=useState("")
+console.log("PLAYERS")
+console.log(players)
 
   const positionOptions = [
+    {value:'',label:'All'},
     { value: "2024", label: "2024" },
     { value: "2023", label: "2023" },
     { value: "2022", label: "2022" },
@@ -68,8 +65,13 @@ const PlayersArea = () => {
       {/* year select */}
       <div className="max-w-[100px] absolute right-[80px] -top-1 ">
         <Select
-          defaultValue={{ value: "2024", label: "2024" }}
+          defaultValue={{ value: "", label: "All" }}
           styles={customSelectStyles}
+        onChange={(e)=>{
+
+     
+          setClass(e.value)
+        }}
           options={positionOptions}
         />
       </div>
@@ -77,7 +79,7 @@ const PlayersArea = () => {
       {/* players */}
       <div className="grid grid-cols-1  lg:grid-cols-3  gap-9 lg:gap-[75px]">
         {players &&
-          players.map((player, index) => (
+          players?.filter(u=>u?.class?.startsWith(playerClass?.toString()))?.map((player, index) => (
             <PlayerCard key={index} playerInfo={player} />
           ))}
       </div>

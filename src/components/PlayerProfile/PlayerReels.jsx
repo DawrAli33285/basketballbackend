@@ -18,18 +18,18 @@ const PlayerReels = ({ videos,userid}) => {
 
 
   return (
-    <div>
+    <div style={videos.length==0 && !videos ? { textAlign:'center',display: 'flex', justifyContent: 'center', alignContent: 'center', alignItems: 'center' } : {}}>
       {/* wrapper */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 lg:gap-7">
         {videos && videos?.length > 0 ? (
           videos?.map((item, index) => {
-            
-            const formattedDate = new Date(item?.createdAt).toLocaleDateString();
-            
+            const newsDate = new Date(item.createdAt);
+            const formattedDate = `${newsDate.getMonth() + 1}/${newsDate.getDate()}/${newsDate.getFullYear()}`;
+
             return (
               <div key={index}>
                 {/* top part */}
-                <CustomVideoPlayer viewedData={viewedData} state={state} setState={setState} userid={userid} videoid={item?._id} src={item?.video} alt={item?.description} />
+                <CustomVideoPlayer  src={item?.video} alt={item?.description} />
 
                 {/* bottom part */}
                 <div className="flex items-center justify-between">
@@ -118,9 +118,10 @@ const PlayerReels = ({ videos,userid}) => {
             );
           })
         ) : (
-          <p className="text-center text-[#000] text-base leading-6 font-normal">
-            No videos
-          </p>
+<p className="text-center text-[#000] text-base leading-6 font-normal
+           md:w-50rem w-5rem">
+  No videos
+</p>
         )}
       </div>
     </div>

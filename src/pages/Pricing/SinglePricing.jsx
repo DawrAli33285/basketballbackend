@@ -1,4 +1,12 @@
 import PropTypes from "prop-types";
+import axios from "axios";
+import {
+  PaymentElement,
+  Elements,
+  useStripe,
+  useElements,
+} from '@stripe/react-stripe-js';
+import { BASE_URL } from "../../baseurl/baseurl";
 
 const SinglePricing = ({
   price,
@@ -7,6 +15,20 @@ const SinglePricing = ({
   yearlyPrice,
   isToggled,
 }) => {
+  const stripe=useStripe();
+  const getSessionToken=async()=>{
+    const headers={
+      headers:{
+        authorization:`Bearer ${JSON.parse(localStorage?.getItem('user'))?.token}`
+      }
+    }
+
+    let response=await axios.post(`${BASE_URL}/create-session`,{},headers)
+    console.log(response.data)
+   await stripe.redirectToCheckout({
+      sessionId:response.data.session.id
+    })
+  }
   return (
     <div className="px-5 py-[30px] flex flex-col items-center gap-[30px]">
       {/* top */}
@@ -52,7 +74,7 @@ const SinglePricing = ({
       </div>
 
       {/* get started button */}
-      <button className="text-base left-6 font-normal py-2.5 rounded-[30px] bg-[#fff] border border-solid border-primaryColor text-primaryColor ease-in-out duration-300 hover:bg-primaryColor hover:text-[#fff] w-full text-center  ">
+      <button onClick={getSessionToken} className="text-base left-6 font-normal py-2.5 rounded-[30px] bg-[#fff] border border-solid border-primaryColor text-primaryColor ease-in-out duration-300 hover:bg-primaryColor hover:text-[#fff] w-full text-center  ">
         {" "}
         Get Started{" "}
       </button>

@@ -182,3 +182,43 @@
     overflow-y: initial;
   }
 }
+
+
+
+
+
+.popup {
+  position: absolute;
+  top: 13rem; /* Adjust as needed */
+  right: 10px; /* Adjust as needed */
+  background-color: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  padding: 10px;
+}
+
+.popup-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.popup-item {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.popup-item:hover {
+  background-color: #f0f0f0;
+}
+
+.popup-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+}
+
+
+

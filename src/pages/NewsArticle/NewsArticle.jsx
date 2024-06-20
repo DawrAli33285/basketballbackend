@@ -1,153 +1,168 @@
+import { useParams } from "react-router-dom";
+import { BASE_URL } from "../../baseurl/baseurl";
 import "./NewsArticle.css";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 
 const NewsArticle = () => {
-  const playersMentioned = [
-    {
-      player_id: "1a2b3c",
-      player_name: "Wade Warren",
-      player_height: "6'4",
-      year: 2024,
-      feature: "PG",
-      player_image: "https://i.ibb.co/dLNf1rv/image-278.png",
-      pg: 21.0,
-    },
-    {
-      player_id: "4d5e6f",
-      player_name: "John Doe",
-      player_height: "6'2",
-      year: 2024,
-      feature: "PG",
-      player_image: "https://i.ibb.co/wNGNbJM/image-293.png",
-      pg: 21.0,
-    },
-    {
-      player_id: "7g8h9i",
-      player_name: "Jane Smith",
-      player_height: "6'1",
-      year: 2024,
-      feature: "PG",
-      player_image: "https://i.ibb.co/M8cVgnN/image-299.png",
-      pg: 21.0,
-    },
-  ];
+  const [state, setState] = useState(null);
+  const [hoveredPlayer, setHoveredPlayer] = useState(null);
+  let { id } = useParams();
+
+  useEffect(() => {
+    fetchNewsFeed();
+  }, []);
+
+  useEffect(() => {
+    const links = document.querySelectorAll('.profile--link');
+    links.forEach(link => {
+      link.addEventListener('mouseenter', handleMouseEnter);
+      link.addEventListener('mouseleave', handleMouseLeave);
+    });
+
+    return () => {
+      links.forEach(link => {
+        link.removeEventListener('mouseenter', handleMouseEnter);
+        link.removeEventListener('mouseleave', handleMouseLeave);
+      });
+    };
+  }, [state]);
+
+  const fetchNewsFeed = async () => {
+    let response = await axios.get(`${BASE_URL}/getSingleNewsFeed/${id}`);
+    setState(response?.data?.newsFeed);
+  };
+
+  const createLinkedDescription = (description, players) => {
+    let linkedDescription = description;
+    players.forEach(player => {
+      const playerName = player.name;
+      const playerId = player._id;
+      const playerLink = `<a class="profile--link" href="#" data-player-id="${playerId}">${playerName}</a>`;
+      const playerNameRegex = new RegExp(playerName, "g");
+      linkedDescription = linkedDescription.replace(playerNameRegex, playerLink);
+    });
+    return linkedDescription;
+  };
+
+  const handleMouseEnter = (event) => {
+    const playerId = event.target.getAttribute('data-player-id');
+    const player = state?.players.find(p => p.auth === playerId);
+    console.log("HOVERED")
+    console.log(player)
+  let hoveredname=state?.featuredPlayers?.find(u => u?._id === player?.auth)?.name
+    setHoveredPlayer({
+      ...player,
+      name:hoveredname
+    });
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredPlayer(null);
+  };
+
+  useEffect(() => {
+    const links = document.querySelectorAll('.profile--link');
+    links.forEach(link => {
+      link.addEventListener('mouseenter', handleMouseEnter);
+      link.addEventListener('mouseleave', handleMouseLeave);
+    });
+
+    return () => {
+      links.forEach(link => {
+        link.removeEventListener('mouseenter', handleMouseEnter);
+        link.removeEventListener('mouseleave', handleMouseLeave);
+      });
+    };
+  }, [state]);
+
+  const linkedDescription = state?.description
+    ? createLinkedDescription(state.description, state.featuredPlayers)
+    : "";
 
   return (
     <div>
-      {/* top part */}
+      {/* Top part */}
       <div className="space-y-4">
-        <h3 className="text-2xl  text-[#000] font-semibold">
-          {" "}
-          he Impact of Our Basketball Recruit App on Player Development{" "}
-        </h3>
-        <p className="text-base text-[#000] leading-6"> 12 MAR, 2024 </p>
+        <h3 className="text-2xl text-[#000] font-semibold">{state?.title}</h3>
+        <p className="text-base text-[#000] leading-6">12 MAR, 2024</p>
 
         <p className="text-base text-[#000] leading-6">
-          Player Featured in this article:
+          Players Featured in this article:
         </p>
 
-        {/* player wrappers */}
-        <div className="flex items-center gap-5 overflow-x-auto lg:overflow-x-hidden pb-3 lg:pb-0 ">
-          {playersMentioned &&
-            playersMentioned.map((player, index) => (
-              <div
-                className="flex items-center gap-1 rounded-[50px] py-3 px-6 bg-[#F3F3F3] "
-                key={index}
-              >
-                {/* profile */}
-                <div className=" min-w-[50px] max-w-[50px] h-[50px] rounded-full overflow-hidden ">
+        {/* Hovered Player Details */}
+        <div className="flex items-center gap-5 overflow-x-auto lg:overflow-x-hidden pb-3 lg:pb-0">
+          {state &&
+            state?.featuredPlayers?.map((player, index) => (
+              <div key={index} className="flex items-center gap-1 rounded-[50px] py-3 px-6 bg-[#F3F3F3]">
+                {/* Profile */}
+                <div className="min-w-[50px] max-w-[50px] h-[50px] rounded-full overflow-hidden">
                   <img
                     className="w-full h-full object-cover"
-                    src={player.player_image}
+                    src={state?.players?.find(u => u?.auth === player?._id)?.picture}
                     alt=""
                   />
                 </div>
-
-                {/* details */}
+  
+                {/* Details */}
                 <div>
                   <p className="text-[#000] text-base font-medium leading-normal">
-                    {" "}
-                    {player.player_name}{" "}
+                  {state?.featuredPlayers?.find(u => u?._id === player?._id)?.name}
                   </p>
-
-                  <div className="flex items-center gap-1 text-sm text-[#171717] font-medium leading-normal ">
-                    <span> PG </span>l<span> {player.player_height} </span>l
-                    <span> {player.year} </span>
+  
+                  <div className="flex items-center gap-1 text-sm text-[#171717] font-medium leading-normal">
+                    <span>{state?.players?.find(u => u?.auth === player?._id)?.position?.toUpperCase()}</span>
+                    <span>{state?.players?.find(u => u?.auth === player?._id)?.height}</span>
+                    <span>{state?.players?.find(u => u?.auth === player?._id)?.class}</span>
                   </div>
                 </div>
               </div>
             ))}
         </div>
+
       </div>
 
-      {/* news banner */}
+      {/* News banner */}
       <div className="mt-6 mb-6 lg:mb-12 w-full h-[300px] lg:h-[565px] rounded-xl overflow-hidden">
         <img
           className="w-full h-full object-cover"
-          src="https://i.ibb.co/Hh5KBmG/news-baner.png"
+          src={state?.banner}
           alt=""
         />
       </div>
 
-      {/* news description */}
+      {/* News description */}
       <div className="news-article-description mb-[80px]">
         <div>
-          <p>
-            Basketball, often referred to as the beautiful game, transcends the
-            boundaries of sport, captivating audiences{" "}
-            <a className="profile--link" href="#">
-              Albert Flores
-            </a>{" "}
-            worldwide with its blend of athleticism, strategy, and sheer
-            excitement. From the rhythm of dribbling to the elegance of a
-            perfectly executed jump shot, basketball is more than just a s an
-            art form that reflects the human spirit in motion.
-          </p>
-        </div>
-        <div>
-          <h3>The Artistry of Movement</h3>
-          <p>
-            At its core, basketball is a dance of movement. Players{" "}
-            <a className="profile--link" href="#">
-              Wade Warren
-            </a>
-            glide across the court with grace and precision, orchestrating plays
-            <a className="profile--link" href="#">
-              Courtney Henry
-            </a>{" "}
-            like choreographed performances. Each dribble, pass, and shot is a
-            brushstroke on the canvas of the court, creating a masterpiece of
-            teamwork and skill.
-          </p>
-        </div>
-        <div>
-          <h3>The Power of Unity</h3>
-          <p>
-            At its core, basketball is a dance of movement. Players glide across
-            the court with grace and precision, orchestrating plays like
-            choreographed performances. Each dribble, pass, and shot is a
-            brushstroke on the canvas of the court, creating a masterpiece of
-            teamwork and skill.
-          </p>
-        </div>
-        <div>
-          <h3>Inspiration and Aspiration</h3>
-          <p>
-            At its core, basketball is a dance of movement. Players glide across
-            the court with grace and precision, orchestrating plays like
-            choreographed performances. Each dribble, pass, and shot is a
-            brushstroke on the canvas of the court, creating a masterpiece of
-            teamwork and skill.
-          </p>
-        </div>
-        <div>
-          <h3>Beyond the Scoreboard</h3>
-          <p>
-            At its core, basketball is a dance of movement. Players glide across
-            the court with grace and precision, orchestrating plays like
-            choreographed performances. Each dribble, pass, and shot is a
-            brushstroke on the canvas of the court, creating a masterpiece of
-            teamwork and skill.
-          </p>
+          <div className="absolute -my-20">
+            {hoveredPlayer && (
+              <div className="flex items-center gap-1 rounded-[50px] py-3 px-6 bg-[#F3F3F3]">
+                {/* Profile */}
+                <div className="min-w-[50px] max-w-[50px] h-[50px] rounded-full overflow-hidden">
+                  <img
+                    className="w-full h-full object-cover"
+                    src={hoveredPlayer?.picture}
+                    alt=""
+                  />
+                </div>
+  
+                {/* Details */}
+                <div>
+                  <p className="text-[#000] text-base font-medium leading-normal">
+                    {hoveredPlayer?.name}
+                  </p>
+  
+                  <div className="flex items-center gap-1 text-sm text-[#171717] font-medium leading-normal">
+                    <span>{hoveredPlayer?.position?.toUpperCase()}</span>
+                    <span>{hoveredPlayer?.height}</span>
+                    <span>{hoveredPlayer?.class}</span>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+          <p dangerouslySetInnerHTML={{ __html: linkedDescription }}></p>
         </div>
       </div>
     </div>

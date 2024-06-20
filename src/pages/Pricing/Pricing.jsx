@@ -1,6 +1,7 @@
 import { useState } from "react";
 import SinglePricing from "./SinglePricing";
 
+
 const Pricing = () => {
   const [isToggled, setIsToggled] = useState(false);
   const [isMonthlyActive, setIsMonthlyActive] = useState(true);

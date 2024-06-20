@@ -4,7 +4,7 @@ import SingleNews from "./SingleNews";
 const NewsWrapper = ({ newsData }) => {
   return (
     <div className="grid grid-cols-1  lg:grid-cols-3 gap-7">
-      {newsData.map((item, index) => (
+      {newsData?.map((item, index) => (
         <SingleNews key={index} news={item} />
       ))}
     </div>

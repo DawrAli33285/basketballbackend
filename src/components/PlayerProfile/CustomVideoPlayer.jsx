@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { BASE_URL } from "../../baseurl/baseurl";
 import React from "react";
-const CustomVideoPlayer = ({ viewedData,src, alt, videoid, userid, state, setState }) => {
+const CustomVideoPlayer = ({ src, alt }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const videoRef = useRef(null);
 
@@ -29,48 +29,48 @@ const CustomVideoPlayer = ({ viewedData,src, alt, videoid, userid, state, setSta
       videoRef.current.pause();
     } else {
       
-    const prevState = state; // Capture previous state
+    // const prevState = state; // Capture previous state
     
-        const indexfound = prevState.findIndex((u) => u._id === videoid);
-        const videofound = prevState.find((u) => u._id === videoid);
+    //     const indexfound = prevState.findIndex((u) => u._id === videoid);
+    //     const videofound = prevState.find((u) => u._id === videoid);
     
-        if (videofound) {
-            const viewedFound = videofound.viewedBy?.find((u) => u === userid);
-            if (!viewedFound) {
-            const viewedarray = [...(videofound.viewedBy || []), userid];
-            const newitem = { ...videofound, viewedBy: viewedarray };
-            console.log(newitem);
+    //     if (videofound) {
+    //         const viewedFound = videofound.viewedBy?.find((u) => u === userid);
+    //         if (!viewedFound) {
+    //         const viewedarray = [...(videofound.viewedBy || []), userid];
+    //         const newitem = { ...videofound, viewedBy: viewedarray };
+    //         console.log(newitem);
     
-            // Create a promise for the API call
-            const updateViewsPromise = new Promise((resolve, reject) => {
-                axios.get(`${BASE_URL}/updateViews/${videoid}/${userid}`)
-                .then(response => {
-                    resolve(response.data); // Resolve with API response
-                })
-                .catch(error => {
-                    reject(error); // Reject with error if API call fails
-                });
-            });
+    //         // Create a promise for the API call
+    //         const updateViewsPromise = new Promise((resolve, reject) => {
+    //             axios.get(`${BASE_URL}/updateViews/${videoid}/${userid}`)
+    //             .then(response => {
+    //                 resolve(response.data); // Resolve with API response
+    //             })
+    //             .catch(error => {
+    //                 reject(error); // Reject with error if API call fails
+    //             });
+    //         });
     
-            try {
-                // Await the promise for the API call
-                await updateViewsPromise;
+    //         try {
+    //             // Await the promise for the API call
+    //             await updateViewsPromise;
     
-                // Update state after successful API call
-                const newState = prevState.map((item) =>
-                item._id === newitem._id ? newitem : item
-                );
+    //             // Update state after successful API call
+    //             const newState = prevState.map((item) =>
+    //             item._id === newitem._id ? newitem : item
+    //             );
     
-                setState(newState);
+    //             setState(newState);
     
-                // Start playing the video
-                videoRef.current.play();
-            } catch (error) {
-                console.error("Error updating views:", error);
-                // Handle error if needed
-            }
-            }
-        }
+    //             // Start playing the video
+    //             videoRef.current.play();
+    //         } catch (error) {
+    //             console.error("Error updating views:", error);
+    //             // Handle error if needed
+    //         }
+    //         }
+    //     }
       videoRef.current.play();
     }
   

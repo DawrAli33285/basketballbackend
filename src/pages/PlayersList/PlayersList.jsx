@@ -3,29 +3,43 @@ import { useNavigate } from "react-router-dom";
 import "./PlayerList.css";
 import Select from "react-select";
 import PlayerRow from "./PlayerRow";
-
+import axios from 'axios'
+import { BASE_URL } from "../../baseurl/baseurl";
 const PlayersList = () => {
   const navigate = useNavigate();
-
-  const [players, setPlayers] = useState(null);
+const [playerClass,setClass]=useState("")
+const [playerState,setPlayerState]=useState("")
+const [search,setSearch]=useState("")
+const [position,setPosition]=useState("")
+const [players, setPlayers] = useState([]);
 
   useEffect(() => {
-    fetch("/players.json")
-      .then((res) => res.json())
-      .then((data) => setPlayers(data));
+    // fetch("/players.json")
+    //   .then((res) => res.json())
+    //   .then((data) => setPlayers(data));
+    fetchPlayers();
   }, []);
 
+  const fetchPlayers=async()=>{
+    let response=await axios.get(`${BASE_URL}/getPlayer`)
+    setPlayers(response?.data?.players)
+  
+  }
+
   const classOptions = [
+    {label:'All',value:''},
     { value: "2024", label: "2024" },
     { value: "2023", label: "2023" },
     { value: "2022", label: "2022" },
   ];
   const stateOptions = [
+    {label:'All',value:''},
     { value: "North Carolina", label: "North Carolina" },
     { value: "new Jersy", label: "New Jersy" },
     { value: "Los Angeles", label: "Los Angeles" },
   ];
   const positionOptions = [
+    {label:'All',value:''},
     { value: "PG", label: "PG" },
     { value: "SG", label: "SG" },
     { value: "SF", label: "SF" },
@@ -61,6 +75,23 @@ const PlayersList = () => {
       color: "#000",
     }),
   };
+  const filteredPlayers = () => {
+    return players?.filter(player => {
+      const playerClassLower = playerClass?.toLowerCase();
+      const positionLower = position?.toLowerCase();
+      const playerStateLower = playerState?.toLowerCase();
+      const searchLower = search?.toLowerCase();
+
+      const classMatches = playerClass ? player?.class?.toLowerCase()?.startsWith(playerClassLower) : true;
+      const positionMatches = position ? player?.position?.toLowerCase()?.startsWith(positionLower) : true;
+      const stateMatches = playerState ? player?.location?.toLowerCase()?.startsWith(playerStateLower) : true;
+      const searchMatches = search ? player?.auth?.name?.toLowerCase()?.includes(searchLower) : true;
+
+      return classMatches && positionMatches && stateMatches && searchMatches;
+    });
+  };
+  
+
 
   return (
     <div>
@@ -98,6 +129,10 @@ const PlayersList = () => {
           <input
             type="text"
             name="search"
+            value={search}
+            onChange={(e)=>{
+              setSearch(e.target.value)
+            }}
             id="search"
             placeholder="Search"
             className="w-full py-2.5 lg:py-3.5 px-6 pl-14  bg-[#F8FAFC] border border-solid border-[#E9E9E9] rounded-[30px] focus:outline-none "
@@ -108,6 +143,9 @@ const PlayersList = () => {
         <div className="flex items-center justify-between pt-3 flex-col lg:flex-row gap-3 lg:gap-0">
           <div className=" w-full lg:w-[230px]">
             <Select
+            onChange={(e)=>{
+              setClass(e.value)
+            }}
               styles={customSelectStyles}
               options={classOptions}
               placeholder="Class"
@@ -115,6 +153,9 @@ const PlayersList = () => {
           </div>
           <div className=" w-full lg:w-[230px]">
             <Select
+            onChange={(e)=>{
+              setPosition(e.value)
+            }}
               styles={customSelectStyles}
               options={positionOptions}
               placeholder="Postion"
@@ -122,6 +163,9 @@ const PlayersList = () => {
           </div>
           <div className=" w-full lg:w-[230px]">
             <Select
+            onChange={(e)=>{
+              setPlayerState(e.value)
+            }}
               styles={customSelectStyles}
               options={stateOptions}
               placeholder="State"
@@ -174,7 +218,7 @@ const PlayersList = () => {
             </div>
 
             <div>
-              {players.map((singlePlayer, index) => (
+              {filteredPlayers()?.map((singlePlayer, index) => (
                 <PlayerRow player={singlePlayer} key={index} />
               ))}
             </div>

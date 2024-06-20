@@ -9,15 +9,22 @@ import ClassPlayerArea from "../../components/Home/ClassPlayerArea/ClassPlayerAr
 import ReviewArea from "../../components/Home/ReviewArea/ReviewArea";
 import HowItWorks from "../../components/Home/HowItWorks/HowItWorks";
 import axios from "axios";
-import React from "react";
+import React,{useState} from "react";
 import { BASE_URL } from "../../baseurl/baseurl";
 const Home = () => {
+  const [state,setState]=useState([])
   React.useEffect(()=>{
-getFirst();
+    getHomeData();
   },[])
-  const getFirst=async()=>{
-let response=await axios.get(`${BASE_URL}/`)
-console.log(response)
+  const getHomeData=async()=>{
+let response=await axios.get(`${BASE_URL}/getHomeData`)
+console.log(response.data)
+setState({
+  newsFeedData:response?.data?.newsFeedData,
+  playersData:response?.data?.playersData,
+  videosData:response?.data?.videosData,
+  classPlayers:response?.data?.classPlayers
+})
   }
   return (
     <div>
@@ -58,15 +65,15 @@ console.log(response)
       <HowItWorks />
 
       {/* videos area */}
-      <VideoArea />
+      <VideoArea videos={state?.videosData} />
       {/* Players area */}
-      <PlayersArea />
+      <PlayersArea setState={setState} state={state} players={state?.playersData}/>
 
       {/* All news area */}
-      <AllNewsArea />
+      <AllNewsArea news={state?.newsFeedData} />
 
       {/* class of players area */}
-      <ClassPlayerArea />
+      <ClassPlayerArea classPlayers={state?.classPlayers} />
 
       {/* review area */}
       <ReviewArea />
