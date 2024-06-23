@@ -73,6 +73,12 @@ const Navbar = () => {
             <NavLink onClick={turnOffNav} to={"/contact"}>
               Contact us
             </NavLink>
+         {localStorage.getItem('user')?            <NavLink onClick={turnOffNav} to={"/create-profile"}>
+             Create Profile
+            </NavLink>:''}
+            <NavLink onClick={turnOffNav} to={"/available-players"}>
+              Availability Players
+            </NavLink>
           </div>
 
           {/* button wrapper */}

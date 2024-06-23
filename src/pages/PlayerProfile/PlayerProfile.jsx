@@ -17,13 +17,50 @@ const PlayerProfile = () => {
   const [playerData, setPlayerData] = useState(null);
   const [playersProfile,setPlayers]=useState()
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [currentUser,setCurrentUser]=useState("")
+  const [showPlayer,setShowPlayers]=useState([])
   const navigate = useNavigate();
 
   const togglePopup = () => {
     setIsPopupOpen(!isPopupOpen);
   };
-  const { id } = useParams();
 
+  const { id } = useParams();
+  const flagProfile=async()=>{
+    console.log("PLAYER PROFILE")
+    console.log(playerData)
+    let alreadyFlagged=playerData?.flaggedBy.find(u=>u===currentUser?._id)
+  
+
+    if(!currentUser){
+      toastr.error("Please login to flag profile")
+      return;
+    }
+    const headers={
+      headers:{
+        authorization:`Bearer ${JSON.parse(localStorage?.getItem('user'))?.token}`
+      }
+    }
+    let response=await axios.get(`${BASE_URL}/flagProfile/${id}`,headers)
+   if(response.status===200){
+    if(alreadyFlagged){
+      setPlayerData((prev)=>{
+        let old={...prev};
+   let flaggedBy=old.flaggedBy.filter(u=>u!=currentUser?._id)
+   old={...old,flaggedBy}
+      return old
+      })
+    }else{
+      setPlayerData((prev)=>{
+        let old={...prev};
+      old.flaggedBy.push(currentUser?._id)
+      return old
+      })
+    }
+    toastr.success(response?.data?.message)
+   }
+    setIsPopupOpen(!isPopupOpen);
+  }
   useEffect(() => {
 fetchUser(id)
     // fetch("/players.json")
@@ -34,14 +71,19 @@ fetchUser(id)
     //     return setPlayerData(result);
     //   });
   }, [id]);
+useEffect(()=>{
+setCurrentUser(JSON.parse(localStorage?.getItem('user')))
+},[localStorage?.getItem('user')])
 
 const fetchUser=async(id)=>{
 let response=await axios.get(`${BASE_URL}/get-profile/${id}`)
 if(response.status==200){
+  console.log("DATA")
 console.log(response.data)
-  const {profile,players}=response.data
+  const {profile,players,showPlayers}=response.data
 setPlayers(players)
 setPlayerData(profile)
+setShowPlayers(showPlayers)
 }
 }
 
@@ -230,8 +272,9 @@ const currentYear = new Date().getFullYear();
         {isPopupOpen && (
         <div className="popup">
           <div className="popup-content">
-            <div className="popup-item" onClick={togglePopup}>
-            <svg width="25" height="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M5 21V3.90002C5 3.90002 5.875 3 8.5 3C11.125 3 12.875 4.8 15.5 4.8C18.125 4.8 19 3.9 19 3.9V14.7C19 14.7 18.125 15.6 15.5 15.6C12.875 15.6 11.125 13.8 8.5 13.8C5.875 13.8 5 14.7 5 14.7" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+            <div  className="popup-item" onClick={flagProfile}>
+            {playerData?.flaggedBy?.find(u=>u==currentUser?._id)?<svg width="25" height="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ff9999"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path opacity="0.5" fill-rule="evenodd" clip-rule="evenodd" d="M6.5 1.75C6.5 1.33579 6.16421 1 5.75 1C5.33579 1 5 1.33579 5 1.75V21.75C5 22.1642 5.33579 22.5 5.75 22.5C6.16421 22.5 6.5 22.1642 6.5 21.75V13.6V3.6V1.75Z" fill="#800000"></path> <path d="M13.3486 3.78947L13.1449 3.70801C11.5821 3.08288 9.8712 2.9258 8.22067 3.25591L6.5 3.60004V13.6L8.22067 13.2559C9.8712 12.9258 11.5821 13.0829 13.1449 13.708C14.8385 14.3854 16.7024 14.5119 18.472 14.0695L18.6864 14.0159C19.3115 13.8597 19.75 13.298 19.75 12.6538V5.28673C19.75 4.50617 19.0165 3.93343 18.2592 4.12274C16.628 4.53055 14.9097 4.41393 13.3486 3.78947Z" fill="#800000"></path> </g></svg>: <svg width="25" height="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M5 21V3.90002C5 3.90002 5.875 3 8.5 3C11.125 3 12.875 4.8 15.5 4.8C18.125 4.8 19 3.9 19 3.9V14.7C19 14.7 18.125 15.6 15.5 15.6C12.875 15.6 11.125 13.8 8.5 13.8C5.875 13.8 5 14.7 5 14.7" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>}
+           
               Flag Profile
             </div>
             <div className="popup-item" onClick={shareOnTwitter}>
@@ -482,7 +525,7 @@ const currentYear = new Date().getFullYear();
             <div className="flex items-start pt-5 lg:pt-[50px] gap-8 flex-col-reverse lg:flex-row">
               {/* player switching */}
               <div className=" w-full lg:w-auto lg:min-w-[25%] pt-5">
-                <SwitchPlayer players={playersProfile} />
+                <SwitchPlayer players={showPlayer} />
               </div>
 
               {/* tabs content */}
@@ -631,7 +674,7 @@ const currentYear = new Date().getFullYear();
           <p className="text-xs text-[#000] leading-normal">Class</p>
           <p className="text-base text-[#000] leading-6">{playerData?.player?.class}</p>
         </div>
-        {playerData?.socialLinks?.length>0?playerData?.socialLinks?.map((linkItem, index) => (
+        {playerData?.socialLinks?.length>0?playerData?.socialLinks?.filter(u=>u?.link?.length>0)?.map((linkItem, index) => (
           <div key={`socialLink_${index}`}>
             <p className="text-xs text-[#000] leading-normal">{linkItem.social_type}</p>
             <p className="text-base text-[#000] leading-6">{linkItem.link}</p>

@@ -1,7 +1,22 @@
 import "./ContactUs.css";
 import banner from "../../assets/images/contact-banner.png";
+import axios from 'axios'
+import { BASE_URL } from "../../baseurl/baseurl";
+import { useState } from "react";
 
 const ContactUs = () => {
+const [state,setState]=useState({
+  name:'',
+  email:'',
+  message:''
+})
+  const contactNow=async(e)=>{
+    e.preventDefault()
+  let respose=await axios.post(`${BASE_URL}/contactUs`,state)
+  console.log(respose.data)
+}
+
+
   return (
     <div>
       {/* top area */}
@@ -102,11 +117,23 @@ const ContactUs = () => {
         <form className="contact--form flex-1 flex flex-col gap-6 lg:gap-[40px] w-full lg:w-auto">
           <div className="single--input">
             <label htmlFor="name">Name</label>
-            <input type="text" name="name" id="name" placeholder="Write Name" />
+            <input value={state.name} onChange={(e)=>{
+              setState({
+                ...state,
+                name:e.target.value
+              })
+            }} type="text" name="name" id="name" placeholder="Write Name" />
           </div>
           <div className="single--input">
             <label htmlFor="email">Email</label>
             <input
+            value={state.email}
+            onChange={(e)=>{
+              setState({
+                ...state,
+                email:e.target.value
+              })
+            }}
               type="email"
               name="email"
               id="email"
@@ -118,11 +145,18 @@ const ContactUs = () => {
             <textarea
               name="message"
               id="message"
+              value={state.message}
+              onChange={(e)=>{
+                setState({
+                  ...state,
+                  message:e.target.value
+                })
+              }}
               placeholder="Write message"
             ></textarea>
           </div>
 
-          <button className="py-2.5 px-[55px] bg-primaryColor text-sm leading-6 font-normal w-full lg:w-fit mr-auto rounded-[30px] text-[#fff] ">
+          <button onClick={contactNow} className="py-2.5 px-[55px] bg-primaryColor text-sm leading-6 font-normal w-full lg:w-fit mr-auto rounded-[30px] text-[#fff] ">
             Submit
           </button>
         </form>

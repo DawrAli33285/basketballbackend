@@ -13,6 +13,7 @@ import React,{useState} from "react";
 import { BASE_URL } from "../../baseurl/baseurl";
 const Home = () => {
   const [state,setState]=useState([])
+  const [email,setEmail]=useState("")
   React.useEffect(()=>{
     getHomeData();
   },[])
@@ -26,6 +27,16 @@ setState({
   classPlayers:response?.data?.classPlayers
 })
   }
+
+const subscribeMail=async(e)=>{
+  e.preventDefault();
+let response=await axios.post(`${BASE_URL}/subscribeMail`,{email})
+console.log(response.data)
+  toastr.success("Subscribed successfully")
+  setEmail("")
+
+}
+
   return (
     <div>
       <LaunchEvent />
@@ -34,13 +45,17 @@ setState({
       <form className="flex items-center gap-4 flex-col lg:flex-row ">
         <div className=" w-full lg:w-[315px]">
           <input
+          value={email}
+          onChange={(e)=>{
+            setEmail(e.target.value)
+          }}
             className="w-full py-4 pl-6 rounded-[30px] bg-[#F8FAFC] focus:outline-none text-base placeholder:text-[#818181] text-[#000] "
             type="email"
             placeholder="Subscribe to get Notification"
             required
           />
         </div>
-        <button className=" px-6 py-3 lg:py-4 bg-primaryColor rounded-[30px] text-base font-medium text-[#fff] ">
+        <button onClick={subscribeMail} className=" px-6 py-3 lg:py-4 bg-primaryColor rounded-[30px] text-base font-medium text-[#fff] ">
           Subscribe
         </button>
       </form>
@@ -65,7 +80,7 @@ setState({
       <HowItWorks />
 
       {/* videos area */}
-      <VideoArea videos={state?.videosData} />
+      <VideoArea setState={setState} videos={state?.videosData} />
       {/* Players area */}
       <PlayersArea setState={setState} state={state} players={state?.playersData}/>
 

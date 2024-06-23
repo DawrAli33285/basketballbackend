@@ -1,13 +1,19 @@
 import PropTypes from "prop-types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toastr from 'toastr';
 import 'toastr/build/toastr.min.css';
 import "./VideoCard.css";
 import CustomVideoPlayer from "../../PlayerProfile/CustomVideoPlayer";
+import axios from "axios";
+import { BASE_URL } from "../../../baseurl/baseurl";
 
-const VideoCard = ({ videoInfo }) => {
+const VideoCard = ({ videoInfo}) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-
+  const [currentUser,setCurrentUser]=useState("")
+  useEffect(()=>{
+setCurrentUser(JSON.parse(localStorage.getItem('user')))
+  },[localStorage?.getItem('user')])
+console.log(videoInfo)
   const togglePopup = () => {
     setIsPopupOpen(!isPopupOpen);
   };
@@ -29,7 +35,41 @@ const VideoCard = ({ videoInfo }) => {
     toastr.success("Video link copied successfully");
     setIsPopupOpen(false);
   };
+  const flagVideo=async()=>{
+    if(!currentUser){
+      toastr.error("Login to flag videos")
+      return;
+    }
+    let alreadyFlagged=videoInfo?.flaggedBy?.find(u=>u===currentUser?._id)
 
+    if(alreadyFlagged){
+  //     setState((prev)=>{
+  //       let old=prev;
+  //      let indexVideo=old?.videosData?.findIndex(u=>u?._id==videoInfo?._id)
+  //  let alreadyFlagged=old?.videosData[indexVideo].flaggedBy?.find(u=>u===currentUser?._id)
+  //  if(alreadyFlagged){
+  //   old?.videosData[indexVideo]?.alreadyFlagged?.filter(u=>u!=currentUser?._id)
+  //  }else{
+  //   old?.videosData[indexVideo]?.alreadyFlagged?.push(currentUser?._id)
+  //  }
+  //  return old
+  //     })
+    }
+    const headers={
+      headers:{
+        authorization:`Bearer ${JSON.parse(localStorage?.getItem('user'))?.token}`
+      }
+    }
+    let response=await axios.get(`${BASE_URL}/flag-video/${videoInfo?._id}`,headers)
+    console.log(response.data)
+    if(response.status===200){
+      toastr.success(response.data.message)
+    }
+  window.location.reload(true)
+    setIsPopupOpen(!isPopupOpen);
+  }
+  
+  
   return (
     <div className="video-card">
       {/* Video area */}
@@ -49,8 +89,8 @@ const VideoCard = ({ videoInfo }) => {
         {isPopupOpen && (
         <div className="subpopup">
           <div className="popup-content">
-            <div className="popup-item" onClick={togglePopup}>
-            <svg width="25" height="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M5 21V3.90002C5 3.90002 5.875 3 8.5 3C11.125 3 12.875 4.8 15.5 4.8C18.125 4.8 19 3.9 19 3.9V14.7C19 14.7 18.125 15.6 15.5 15.6C12.875 15.6 11.125 13.8 8.5 13.8C5.875 13.8 5 14.7 5 14.7" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+            <div className="popup-item" onClick={flagVideo}>
+            {videoInfo?.flaggedBy?.find(u=>u==currentUser?._id)?<svg width="25" height="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ff9999"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path opacity="0.5" fill-rule="evenodd" clip-rule="evenodd" d="M6.5 1.75C6.5 1.33579 6.16421 1 5.75 1C5.33579 1 5 1.33579 5 1.75V21.75C5 22.1642 5.33579 22.5 5.75 22.5C6.16421 22.5 6.5 22.1642 6.5 21.75V13.6V3.6V1.75Z" fill="#800000"></path> <path d="M13.3486 3.78947L13.1449 3.70801C11.5821 3.08288 9.8712 2.9258 8.22067 3.25591L6.5 3.60004V13.6L8.22067 13.2559C9.8712 12.9258 11.5821 13.0829 13.1449 13.708C14.8385 14.3854 16.7024 14.5119 18.472 14.0695L18.6864 14.0159C19.3115 13.8597 19.75 13.298 19.75 12.6538V5.28673C19.75 4.50617 19.0165 3.93343 18.2592 4.12274C16.628 4.53055 14.9097 4.41393 13.3486 3.78947Z" fill="#800000"></path> </g></svg>:<svg width="25" height="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M5 21V3.90002C5 3.90002 5.875 3 8.5 3C11.125 3 12.875 4.8 15.5 4.8C18.125 4.8 19 3.9 19 3.9V14.7C19 14.7 18.125 15.6 15.5 15.6C12.875 15.6 11.125 13.8 8.5 13.8C5.875 13.8 5 14.7 5 14.7" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>}
               Flag Video
             </div>
             <div className="popup-item" onClick={shareOnTwitter}>
