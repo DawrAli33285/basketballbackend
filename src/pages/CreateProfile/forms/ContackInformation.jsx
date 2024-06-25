@@ -9,6 +9,7 @@ const ContactInformationForm = ({ data }) => {
 
     const handleChange = (fieldName, value) => {
         data[fieldName] = value;
+       
         dispatch({ type: 'UPDATE_CONTACT_INFORMATION', payload: { fieldName, value } });
     };
 

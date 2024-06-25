@@ -454,13 +454,20 @@ for(let key in contactDetail){
     }
 
   
+   try{
     let response = await axios.post(`${BASE_URL}/create-profile`, formdata, headers)
-    console.log(response.data)
-    console.log("FORM RESPONSE")
+   
     if (response.status === 200) {
       toastr.success("Profile created successfully")
       navigate('/')
     }
+   }catch (error) {
+    if (error?.response?.data?.error) {
+        toastr.error(error.response.data.error);
+    } else {
+        toastr.error("Server error, please try again");
+    }
+}
   }
   return (
     <div className="progressContainer">

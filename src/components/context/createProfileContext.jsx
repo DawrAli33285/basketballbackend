@@ -112,12 +112,14 @@ const ProfileProvider = ({ children }) => {
                                 });
                             }
                             if (profile.socialLinks && profile.socialLinks.length > 0) {
-                                profile.socialLinks.forEach((link) => {
-                                    dispatch({
-                                        type: 'UPDATE_CONTACT_INFORMATION',
-                                        payload: { fieldName: link.social_type, value: link.link }
-                                    });
+                              console.log(profile.socialLinks)
+                             profile.socialLinks.filter(u=>u!=null).map((link,i)=>{
+                            
+                                dispatch({
+                                    type: 'UPDATE_CONTACT_INFORMATION',
+                                    payload: { fieldName: link.social_type, value: link.link }
                                 });
+                             })
                             }
 
                         }
