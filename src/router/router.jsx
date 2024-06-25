@@ -18,6 +18,7 @@ import CreateProfile from "../pages/CreateProfile/CreateProfile";
 import AvailablePlayers from "../pages/AvailablePlayers/AvailablePlayers";
 import axios from "axios";
 import { BASE_URL } from "../baseurl/baseurl";
+import { ProfileProvider } from "../components/context/createProfileContext";
 
 
 

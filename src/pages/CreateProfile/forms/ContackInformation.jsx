@@ -1,14 +1,21 @@
 import React from "react";
+import { useProfileContext } from "../../../components/context/createProfileContext";
+import "react-phone-input-2/lib/style.css";
+import PhoneInput from "react-phone-input-2";
 import "./forms.css";
 
-const   ContactInformationForm = ({data,setsocialLinks,setState}) => {
-const [contactInformation,setContactInformation]=React.useState({
-    phoneNumber:data.phoneNumber,
-    twitter:'',
-    facebook:'',
-    tiktok:'',
-    instagram:''  
-})
+const ContactInformationForm = ({ data }) => {
+    const { state, dispatch } = useProfileContext();
+
+    const handleChange = (fieldName, value) => {
+        data[fieldName] = value;
+        dispatch({ type: 'UPDATE_CONTACT_INFORMATION', payload: { fieldName, value } });
+    };
+
+    const handlePhoneChange = (value) => {
+        data.phoneNumber = value;
+        dispatch({ type: 'UPDATE_CONTACT_INFORMATION', payload: { fieldName: 'phoneNumber', value } });
+    };
 
     return (
         <div className="contactInformationForm">
@@ -16,80 +23,52 @@ const [contactInformation,setContactInformation]=React.useState({
             <div className="form-data">
                 <div className="formFields">
                     <label style={{ fontSize: "16px" }}>Phone Number</label>
-                    <input onChange={(e)=>{
-     
-     setContactInformation((prev)=>{
-        let old=prev;
-        data.phoneNumber=e.target.value
-        return {...old,phoneNumber:e.target.value}
-     })
-     setState((prev)=>{
-        let old=prev;
-        return {...old,phoneNumber:e.target.value}
-     })
-                    }} value={contactInformation.phoneNumber} type="text" placeholder="write phone number" />
+                    <PhoneInput
+                        country={"us"}
+                        value={state.contactDetail.phoneNumber || ""}
+                        onChange={handlePhoneChange}
+                        inputProps={{
+                            name: "phoneNumber",
+                            required: true,
+                            placeholder: "Write phone number"
+                        }}
+                    />
                 </div>
                 <div className="formFields">
                     <label style={{ fontSize: "16px" }}>Twitter</label>
-                    <input onChange={(e)=>{
-                       
-                        setsocialLinks((prev)=>{
-                            let old=prev;
-                            data.socialLinks=[...data.socialLinks,{
-                                social_type:"twitter",
-                                link:e.target.value
-                            }]
-                            return {...old,twitter:{
-                                link:e.target.value
-                            }}
-                        })
-                    
-                    }} type="text" placeholder="Twitter link" />
+                    <input
+                        onChange={(e) => handleChange('twitter', e.target.value)}
+                        value={state.contactDetail.twitter || ""}
+                        type="text"
+                        placeholder="Twitter link"
+                    />
                 </div>
                 <div className="formFields">
                     <label style={{ fontSize: "16px" }}>TikTok</label>
-                    <input onChange={(e)=>{
-                       setsocialLinks((prev)=>{
-                        let old=prev;
-                        data.socialLinks=[...data.socialLinks,{
-                            social_type:"tiktok",
-                            link:e.target.value
-                        }]
-                        return {...old,tiktok:{
-                            link:e.target.value
-                        }}
-                    })
-                    }}  type="text" placeholder="TikTok link" />
+                    <input
+                        onChange={(e) => handleChange('tiktok', e.target.value)}
+                        value={state.contactDetail.tiktok || ""}
+                        type="text"
+                        placeholder="TikTok link"
+                    />
                 </div>
                 <div className="formFields">
                     <label style={{ fontSize: "16px" }}>Facebook</label>
-                    <input onChange={(e)=>{
-                       setsocialLinks((prev)=>{
-                        let old=prev;
-                        data.socialLinks=[...data.socialLinks,{
-                            social_type:"facebook",
-                            link:e.target.value
-                        }]
-                        return {...old,facebook:{
-                            link:e.target.value
-                        }}
-                    })
-                    }}  type="text" placeholder="Facebook link" />
+                    <input
+                        onChange={(e) => handleChange('facebook', e.target.value)}
+                        value={state.contactDetail.facebook || ""}
+                        type="text"
+                        placeholder="Facebook link"
+                    />
                 </div>
                 <div className="formFields">
                     <label style={{ fontSize: "16px" }}>Instagram</label>
-                    <input onChange={(e)=>{
-                     setsocialLinks((prev)=>{
-                        data.socialLinks=[...data.socialLinks,{
-                            social_type:"instagram",
-                            link:e.target.value
-                        }]
-                        let old=prev;
-                        return {...old,instagram:{
-                            link:e.target.value
-                        }}
-                    })
-                    }}  type="text" placeholder="Instagram link" />
+                    <input
+                        onChange={(e) => handleChange('instagram', e.target.value)}
+                        value={state.contactDetail.instagram || ""}
+                        type="text"
+                        placeholder="Instagram link"
+                    />
                 </div>
             </div>
         </div>

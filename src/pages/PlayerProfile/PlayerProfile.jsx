@@ -717,19 +717,19 @@ const currentYear = new Date().getFullYear();
 
                     <Collapse isOpened={isAcademicsOpen}>
                       <div className="content space-y-4">
-                      {playerData?.academics.map((item, index) => (
+                      {playerData?.academics?.map((item, index) => (
   <div className="space-y-2" key={index}>
     <p className="text-xs text-[#000] leading-normal">ACT Score</p>
-    <p className="text-base text-[#000] leading-6">{parseFloat(item.actScore)}</p>
+    <p className="text-base text-[#000] leading-6">{parseFloat(item?.actScore)}</p>
 
     <p className="text-xs text-[#000] leading-normal">GPA</p>
-    <p className="text-base text-[#000] leading-6">{parseFloat(item.gpa)}</p>
+    <p className="text-base text-[#000] leading-6">{parseFloat(item?.gpa)}</p>
 
     <p className="text-xs text-[#000] leading-normal">NCAA ID</p>
-    <p className="text-base text-[#000] leading-6">{parseFloat(item.ncaaId)}</p>
+    <p className="text-base text-[#000] leading-6">{parseFloat(item?.ncaaId)}</p>
 
     <p className="text-xs text-[#000] leading-normal">SAT Score</p>
-    <p className="text-base text-[#000] leading-6">{parseFloat(item.satScore)}</p>
+    <p className="text-base text-[#000] leading-6">{item?.satScore}</p>
   </div>
 ))}
                       </div>

@@ -1,63 +1,54 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./forms.css";
+import { ProfileCreateContext, useProfileContext } from "../../../components/context/createProfileContext";
 
-const OffersForm = ({ data, setState }) => {
+const OffersForm = ({ data }) => {
   const formatDateForInput = (dateString) => {
-    if (!dateString) return ""; 
+    if (!dateString) return "";
     const date = new Date(dateString);
-  
     return date.toISOString().split("T")[0];
   };
-const [offerdata,setOfferData]=React.useState({
-  type:data.offers[0].status,
-  university:data.offers[0].university,
-  status: data.offers[0].status,
-  date: formatDateForInput(data.offers[0].date),
-  logo:data.offers[0].logo
-})
 
+  const { state, dispatch } = useProfileContext();
+  const { offers } = state;
+  const [formattedDate, setFormattedDate] = useState('');
 
-  const handleInputChange = (field, value) => {
-    setState((prev) => {
-       
-        data.offers = [
-            {
-                ...data.offers[0], 
-                [field]: value,   
-            },
-      
-        ];
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    let month = (date.getMonth() + 1).toString();
+    let day = date.getDate().toString();
 
-   
-        return {
-            ...prev,
-            offers: [
-                {
-                    ...prev.offers[0], 
-                    [field]: value,    
-                },
-               
-            ],
-        };
-    });
-setOfferData({
-  ...offerdata,
-  [field]:value
-})
-    
-};
+    if (month.length === 1) {
+      month = '0' + month;
+    }
+    if (day.length === 1) {
+      day = '0' + day;
+    }
+
+    return `${year}-${month}-${day}`;
+  };
+
+  React.useEffect(() => {
+    if (offers.date) {
+      setFormattedDate(formatDate(offers.date));
+    }
+  }, [offers.date]);
+
+  const handleChange = (fieldName, value) => {
+    data[fieldName] = value;
+    dispatch({ type: 'UPDATE_Offers', payload: { fieldName, value } });
+  };
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    setState((prev) => {
-      data.offers[0]={
-        ...data.offers[0],
-        logo:file
-      }
-        return { ...prev, logo:file };
-    });
- 
-};
+    data.offers.logo = file;
+    dispatch({ type: "UPDATE_Offers", payload: { fieldName: "logo", value: file } });
+  };
+
+  useEffect(() => {
+    console.log(offers.date);
+  }, [offers.date]);
 
   return (
     <div className="offersForm">
@@ -65,49 +56,52 @@ setOfferData({
       <div className="form-data">
         <div className="formFields">
           <label style={{ fontSize: "16px" }}>Status</label>
-          <input
-            onChange={(e) => handleInputChange("status", e.target.value)}
-            type="text"
-            placeholder="Offer status"
-          value={offerdata.status}
-          />
+          <select
+            onChange={(e) => handleChange("status", e.target.value)}
+            value={offers.status || ""}
+          >
+            <option value="">Select Status</option>
+            <option value="Offered">Offered</option>
+            <option value="Committed">Committed</option>
+            <option value="Interest">Interest</option>
+            <option value="Transferred">Transferred</option>
+          </select>
         </div>
         <div className="formFields">
           <label style={{ fontSize: "16px" }}>Date</label>
           <input
-            onChange={(e) => handleInputChange("date", e.target.value)}
+            onChange={(e) => handleChange("date", e.target.value)}
             type="date"
             placeholder="Offer date"
-            value={offerdata.date}
+            value={formattedDate || ""}
           />
         </div>
         <div className="formFields">
           <label style={{ fontSize: "16px" }}>University</label>
           <input
-            onChange={(e) => handleInputChange("university", e.target.value)}
+            onChange={(e) => handleChange("university", e.target.value)}
             type="text"
             placeholder="University name"
-            value={offerdata.university}
+            value={offers.university || ""}
           />
         </div>
-        <div className="formFields">
+        {/* <div className="formFields">
           <label style={{ fontSize: "16px" }}>Type</label>
           <input
-            onChange={(e) => handleInputChange("type", e.target.value)}
+            onChange={(e) => handleChange("type", e.target.value)}
             type="text"
             placeholder="Offer type"
-            value={offerdata.type}
+            value={offers.type || ""}
           />
-        </div>
-        <div className="formFields">
-                    <label style={{ fontSize: "16px" }}>University Logo</label>
-                    <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleFileChange}
-                    />
-                </div>
-        
+        </div> */}
+        {/* <div className="formFields">
+          <label style={{ fontSize: "16px" }}>University Logo</label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleFileChange}
+          />
+        </div> */}
       </div>
     </div>
   );

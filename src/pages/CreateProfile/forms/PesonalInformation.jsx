@@ -1,40 +1,69 @@
-import React, { useCallback } from "react";
+import React from "react";
+import { useProfileContext } from "../../../components/context/createProfileContext";
 import "./forms.css";
 
-const PersonalInformationForm = ({ state, setState,data }) => {
-    const [picture,setPicture]=React.useState("")
-const [PersonalState,setPersonalState]=React.useState({
-    name:data.name,
-    email:data.email,
-    universityName:data.universityName,
-    height:data.height,
-    jerseyNumber:data.jerseyNumber,
-    weight:data.weight,
-    playerClass:data.playerClass,
-    birthPlace:data.birthPlace,
-    location:data.location,
-    position:data.position
+const PersonalInformationForm = ({ setState, data }) => {
+    const { state, dispatch } = useProfileContext();
+    const [picture, setPicture] = React.useState();
 
-})
+    const [PersonalState, setPersonalState] = React.useState({
+        name: data.name,
+        email: data.email,
+        universityName: data.universityName,
+        height: data.height,
+        jerseyNumber: data.jerseyNumber,
+        weight: data.weight,
+        playerClass: data.playerClass,
+        birthPlace: data.birthPlace,
+        location: data.location,
+        position: data.position,
+    });
+
     const handleFileChange = (e) => {
         const file = e.target.files[0];
-        data.picture=file
-        console.log(data.picture)
-        setState((prev) => {
-            return { ...prev, picture:file };
-        });
+        dispatch({ type: 'UPDATE_PERSONAL_INFORMATION', payload: { fieldName:"picture", value:file } });
+        data.picture = file;
         if (file) {
             const reader = new FileReader();
             reader.onloadend = () => {
-                setPicture(reader.result)
-                // setState((prev) => {
-                //     return { ...prev, picture: reader.result };
-                // });
+                setPicture(reader.result);
             };
             reader.readAsDataURL(file);
         }
     };
 
+    const handleChange = (fieldName, value) => {
+data.fieldName=value
+
+        dispatch({ type: 'UPDATE_PERSONAL_INFORMATION', payload: { fieldName, value } });
+    };
+
+    const renderWeightOptions = () => {
+        const options = [];
+        for (let i = 1; i <= 999; i++) {
+            options.push(
+                <option key={i} value={`${i} lbs`}>
+                    {i} lbs
+                </option>
+            );
+        }
+        return options;
+    };
+
+    const renderHeightOptions = () => {
+        const options = [];
+        for (let ft = 4; ft <= 7; ft++) {
+            for (let inch = 0; inch < 12; inch++) {
+                const value = `${ft}ft ${inch}in`;
+                options.push(
+                    <option key={value} value={value}>
+                        {value}
+                    </option>
+                );
+            }
+        }
+        return options;
+    };
 
     return (
         <div className="personalInformationForm">
@@ -43,163 +72,123 @@ const [PersonalState,setPersonalState]=React.useState({
                 <div className="formFields">
                     <label style={{ fontSize: "16px" }}>Name</label>
                     <input
-               
-                       
-                        onChange={(e) => {
-                     
-                            setState((prev) => {
-                            
-                              
-                                return { ...prev, name: e.target.value };
-                            });
-                            setPersonalState((prev)=>{
-                                data.name=e.target.value
-                                return { ...prev, name: e.target.value };
-                            })
-                        }}
-                     
+                        onChange={(e) => handleChange('name', e.target.value)}
                         name="name"
                         type="text"
-                     value={PersonalState.name}
-                        placeholder="write player name"
+                        value={state.personalInformation.name || ""}
+                        placeholder="Write player name"
                     />
                 </div>
                 <div className="formFields">
                     <label style={{ fontSize: "16px" }}>School</label>
                     <input
-                        onChange={(e) => {
-                            setState((prev) => {
-                                return { ...prev, universityName: e.target.value };
-                            });
-                            setPersonalState((prev)=>{
-                                data.universityName=e.target.value
-                                return { ...prev, universityName: e.target.value };
-                            })
-                        }}
+                        onChange={(e) => handleChange('universityName', e.target.value)}
                         type="text"
-                        value={PersonalState.universityName}
-                        placeholder="write school"
+                        value={state.personalInformation.universityName || ""}
+                        placeholder="Write school"
                     />
                 </div>
                 <div className="formFields">
                     <label style={{ fontSize: "16px" }}>Jersey Number</label>
                     <input
-                        onChange={(e) => {
-                            setState((prev) => {
-                                return { ...prev, jerseyNumber: e.target.value };
-                            });
-                            setPersonalState((prev)=>{
-                                data.jerseyNumber=e.target.value
-                                return { ...prev, jerseyNumber: e.target.value };
-                            })
-                        }}
-                        value={PersonalState.jerseyNumber}
-                        type="text"
-                        placeholder="write jersey number"
+                        onChange={(e) => handleChange('jerseyNumber', e.target.value)}
+                        type="Number"
+                        value={state.personalInformation.jerseyNumber || ""}
+                        placeholder="Write jersey number"
                     />
                 </div>
                 <div className="formFields">
                     <label style={{ fontSize: "16px" }}>Height</label>
-                    <input
-                        onChange={(e) => {
-                            setState((prev) => {
-                                return { ...prev, height: e.target.value };
-                            });
-                            setPersonalState((prev)=>{
-                                data.height=e.target.value
-                                return { ...prev, height: e.target.value };
-                            })
-                        }}
-                        type="text"
-                        value={PersonalState.height}
-                        placeholder="player height"
-                    />
+                    <select
+                        onChange={(e) => handleChange('height', e.target.value)}
+                        value={state.personalInformation.height || ""}
+                    >
+                        <option value="">Select Height</option>
+                        {renderHeightOptions()}
+                    </select>
                 </div>
                 <div className="formFields">
                     <label style={{ fontSize: "16px" }}>Weight</label>
-                    <input
-                        onChange={(e) => {
-                            setState((prev) => {
-                                return { ...prev, weight: e.target.value };
-                            });
-                            setPersonalState((prev)=>{
-                                data.weight=e.target.value
-                                return { ...prev, weight: e.target.value }; 
-                            })
-                        }}
-                        value={PersonalState.weight}
-                        type="text"
-                        placeholder="player weight"
-                    />
+                    <select
+                        onChange={(e) => handleChange('weight', e.target.value)}
+                        value={state.personalInformation.weight || ""}
+                    >
+                        <option value="">Select Weight</option>
+                        {renderWeightOptions()}
+                    </select>
                 </div>
-                <div className="formFields">
+                {/* <div className="formFields">
                     <label style={{ fontSize: "16px" }}>Class</label>
                     <input
-                        onChange={(e) => {
-                            setState((prev) => {
-                                return { ...prev, playerClass: e.target.value };
-                            });
-                            setPersonalState((prev)=>{
-                                data.playerClass=e.target.value
-                                return { ...prev, playerClass: e.target.value };
-                            })
-                        }}
-                        value={PersonalState.playerClass}
+                        onChange={(e) => handleChange('playerClass', e.target.value)}
                         type="text"
-                        placeholder="player class"
+                        value={state.personalInformation.playerClass || ""}
+                        placeholder="Player class"
                     />
-                </div>
+                </div> */}
+                <div className="formFields">
+    <label style={{ fontSize: "16px" }}>Class</label>
+    <select
+        onChange={(e) => handleChange('playerClass', e.target.value)}
+        value={state.personalInformation.playerClass || ""}
+    >
+        <option value="">Select Class</option>
+        <option value="2022">2022</option>
+        <option value="2023">2023</option>
+        <option value="2024">2024</option>
+        <option value="2025">2025</option>
+        <option value="2026">2026</option>
+        <option value="2027">2027</option>
+        <option value="2028">2028</option>
+        <option value="2029">2029</option>
+        <option value="2030">2030</option>
+        <option value="2031">2031</option>
+        <option value="Transfer">Transfer</option>
+        <option value="Juco(FR)">Juco(FR)</option>
+        <option value="Juco(SO)">Juco(SO)</option>
+    </select>
+</div>
                 <div className="formFields">
                     <label style={{ fontSize: "16px" }}>Birthplace</label>
                     <input
-                        onChange={(e) => {
-                            setState((prev) => {
-                                return { ...prev, birthPlace: e.target.value };
-                            });
-                            setPersonalState((prev)=>{
-                                data.birthPlace=e.target.value
-                                return { ...prev, birthPlace: e.target.value };
-                            })
-                        }}
+                        onChange={(e) => handleChange('birthPlace', e.target.value)}
                         type="text"
-                        value={PersonalState.birthPlace}
-                        placeholder="write birth place"
+                        value={state.personalInformation.birthPlace || ""}
+                        placeholder="Write birth place"
                     />
                 </div>
                 <div className="formFields">
                     <label style={{ fontSize: "16px" }}>Location</label>
                     <input
-                        onChange={(e) => {
-                            setState((prev) => {
-                                return { ...prev, location: e.target.value };
-                            });
-                            setPersonalState((prev)=>{
-                                data.location=e.target.value
-                                return { ...prev, location: e.target.value };
-                            })
-                        }}
+                        onChange={(e) => handleChange('location', e.target.value)}
                         type="text"
-                        value={PersonalState.location}
-                        placeholder="write location"
+                        value={state.personalInformation.location || ""}
+                        placeholder="Write location"
                     />
                 </div>
-                <div className="formFields">
+                {/* <div className="formFields">
                     <label style={{ fontSize: "16px" }}>Position</label>
                     <input
-                        onChange={(e) => {
-                            setState((prev) => {
-                                return { ...prev, position: e.target.value };
-                            });
-                            setPersonalState((prev)=>{
-                                data.position=e.target.value
-                                return { ...prev, position: e.target.value };
-                            })
-                        }}
-                        value={PersonalState.position}
+                        onChange={(e) => handleChange('position', e.target.value)}
                         type="text"
-                        placeholder="write position"
+                        value={state.personalInformation.position || ""}
+                        placeholder="Write position"
                     />
-                </div>
+                </div> */}
+                <div className="formFields">
+    <label style={{ fontSize: "16px" }}>Position</label>
+    <select
+        onChange={(e) => handleChange('position', e.target.value)}
+        value={state.personalInformation.position || ""}
+    >
+        <option value="">Select Position</option>
+        <option value="PG">Point Guard (PG)</option>
+        <option value="SG">Shooting Guard (SG)</option>
+        <option value="SF">Small Forward (SF)</option>
+        <option value="PF">Power Forward (PF)</option>
+        <option value="C">Center (C)</option>
+    </select>
+</div>
                 <div className="formFields">
                     <label style={{ fontSize: "16px" }}>Profile Picture</label>
                     <input

@@ -1,106 +1,91 @@
 import React from "react";
+import { useProfileContext } from "../../../components/context/createProfileContext";
 import "./forms.css";
 
-const AcademicsForm = ({data,setState}) => {
-    const [academics,setAcademics]=React.useState({
-        gpa: data.academics.gpa,
-        satScore: data.academics.satScore,
-        actScore: data.academics.actScore,
-        ncaaId:data.academics.ncaaId
-    })
+const AcademicsForm = () => {
+    const { state, dispatch } = useProfileContext();
+    const { academics } = state;
+
+    const handleChange = (fieldName, value) => {
+        console.log(value)
+        dispatch({ type: 'UPDATE_ACADEMICS', payload: { fieldName, value } });
+    };
+
+    const renderGpaOptions = (start, end, step) => {
+        const options = [];
+        for (let i = start; i <= end; i += step) {
+            options.push(
+                <option key={i} value={i.toFixed(1)}>{i.toFixed(1)}</option>
+            );
+        }
+        return options;
+    };
+
+    
+    const renderOptions = () => {
+        const options = [];
+        for (let i = 400; i <= 1600; i += 100) {
+            options.push(
+                <option key={i} value={i}>{i}</option>
+            );
+        }
+        return options;
+    };
+    const renderActScoreOptions = (start, end) => {
+        const options = [];
+        for (let i = start; i <= end; i++) {
+            options.push(
+                <option key={i} value={i}>{i}</option>
+            );
+        }
+        return options;
+    };
+
     return (
         <div className="academicsForm">
             <h2 style={{ fontSize: "22px" }}>Academics</h2>
             <div className="form-data">
                 <div className="formFields">
                     <label style={{ fontSize: "16px" }}>GPA</label>
-                    <input onChange={(e)=>{
-                            setState((prev)=>{
-                                let old=prev;
-                                return {...old,academics:{
-                                    ...old.academics,
-                                    gpa:e.target.value
-                                }}
-                             })
-                             setAcademics((prev)=>{
-                                let old=prev;
-                                data.academics={
-                                    ...data.academics,
-                                    gpa:e.target.value
-                                }
-                                console.log(prev)
-                                return {...old,gpa:e.target.value}
-                             })
-                     
-                    }} value={academics.gpa} type="text" placeholder="write GPA" />
+                    <select
+                        onChange={(e) => handleChange('gpa', e.target.value)}
+                        value={academics.gpa || ""}
+                    >
+                        <option value="">Select GPA</option>
+                        {renderGpaOptions(1.1, 4.0, 0.1)}
+                    </select>
                 </div>
                 <div className="formFields">
                     <label style={{ fontSize: "16px" }}>SAT Score</label>
-                    <input 
-                    onChange={(e)=>{
-                        setState((prev)=>{
-                            let old=prev;
-                            return {...old,academics:{
-                                ...old.academics,
-                                satScore:e.target.value
-                            }}
-                         })
-                         setAcademics((prev)=>{
-                            let old=prev;
-                            data.academics={
-                                ...data.academics,
-                                satScore:e.target.value
-                            }
-                            console.log(prev)
-                            return {...old, satScore:e.target.value}
-                         })
-                    }}
-                    
-                    type="text" value={academics.satScore} placeholder="write SAT Score" />
+                    <select
+                        onChange={(e) => handleChange('satScore', e.target.value)}
+                        value={academics.satScore || ""}
+                    >
+                        <option value="">Select SAT Score</option>
+                        {renderOptions()}
+                    </select>
                 </div>
                 <div className="formFields">
-                    <label style={{ fontSize: "16px" }}>AST Score</label>
-                    <input onChange={(e)=>{
-                           setState((prev)=>{
-                            let old=prev;
-                            return {...old,academics:{
-                                ...old.academics,
-                               actScore:e.target.value
-                            }}
-                         })
-                         setAcademics((prev)=>{
-                            let old=prev;
-                            data.academics={
-                                ...data.academics,
-                                actScore:e.target.value
-                            }
-                            console.log(prev)
-                            return {...old,actScore:e.target.value}
-                         })
-                    }} value={academics.actScore} type="text" placeholder="write AST Score" />
+                    <label style={{ fontSize: "16px" }}>ACT Score</label>
+                    <select
+                        onChange={(e) => handleChange('actScore', e.target.value)}
+                        value={academics.actScore || ""}
+                    >
+                        <option value="">Select ACT Score</option>
+                        {renderActScoreOptions(1, 36)}
+                    </select>
                 </div>
                 <div className="formFields">
-                    <label style={{ fontSize: "16px" }}>NCAA ID</label>
-                    <input onChange={(e)=>{
-                              setState((prev)=>{
-                                let old=prev;
-                                return {...old,academics:{
-                                    ...old.academics,
-                                    ncaaId:e.target.value
-                                }}
-                             })
+                    <label style={{ fontSize: "16px" }}>NCCA ID</label>
+                    <select
+                        onChange={(e) => handleChange('ncaaId', e.target.value)}
+                        value={academics.ncaaId || ""}
+                    >
+                        <option value="">NCCA ID</option>
+                        {renderGpaOptions(1.1, 4.0, 0.1)}
+                    </select>
+                </div>
 
-                             setAcademics((prev)=>{
-                                let old=prev;
-                                data.academics={
-                                    ...data.academics,
-                                    ncaaId:e.target.value
-                                }
-                                console.log(prev)
-                                return {...old,ncaaId:e.target.value}
-                             })
-                    }} type="text" value={academics.ncaaId} placeholder="write NCAA ID" />
-                </div>
             </div>
         </div>
     );
