@@ -16,15 +16,25 @@ const Login = () => {
 
 const login=async(e)=>{
 e.preventDefault();
-let response=await axios.post(`${BASE_URL}/login`,state)
-if(response.status==200){
+try{
+  let response=await axios.post(`${BASE_URL}/login`,state)
+
   toastr.success("user logged in")
   console.log(response)
   let {userData}=response.data
   localStorage.setItem("user",JSON.stringify(userData))
 
 navigate('/')
+}catch(error){
+
+  if(error?.response && error?.response?.data){
+    toast.error(error?.response?.data?.error)
+    }else{
+    toast.error("Server error please try again")
+    
+    }
 }
+
 }
 
   return (

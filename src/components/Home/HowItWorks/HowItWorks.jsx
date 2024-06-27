@@ -63,13 +63,13 @@ const HowItWorks = () => {
 
         <div className="flex-1">
           <SingleBox
-            title={"Answer a few Questions to Find Your Perfect Coach"}
+            title={"Sign Up and Fill in Basic Information"}
             stepNumber={1}
           >
-            Finding the right tennis coach is difficult, but we’ve already done
-            the hard work for you. Tell us your goals and our coach-finder will
-            search our 2,300+ coach database to find the perfect instructor for
-            you.
+           Begin by signing up with your name, email, and profile details, such as your
+position and personal stats. This foundational information helps coaches get a
+quick overview of your background and skills.
+
           </SingleBox>
         </div>
         {/* arrow */}
@@ -103,22 +103,25 @@ const HowItWorks = () => {
         </div>
         <div className="lg:mt-12 flex-1">
           <SingleBox
-            title={"Schedule Your Lessons When & Where You Choose"}
+            title={"Upload Your Highlights and Achievements"}
             stepNumber={2}
           >
-            Schedule your lessons at courts and times that are convenient for
-            you. If you need any help or have questions, our concierge team is
-            here to help you every step of the way.
+Once your basic info is set, it's time to showcase your talents. Upload your
+highlight reels, game footage, and any training videos you have. Make sure to
+also include your achievements and milestones to give coaches a
+comprehensive view of your abilities.
           </SingleBox>
         </div>
         <div className="flex-1 lg:mt-[80px]">
           <SingleBox
-            title={"Learn, Play and Improve Your tennis Game"}
+            title={"Review and Finalize Your Profile"}
             stepNumber={3}
           >
-            Our top-rated coaches are knowledgeable, fun and patient. You’ll be
-            amazed how quickly you will improve when you’re working with a coach
-            hand-picked just for you.
+        Before submitting, review your profile to ensure all information is accurate and
+your videos are properly displayed. Once satisfied, finalize your profile to make
+it publicly viewable. Now, your profile is ready to be shared with coaches and
+included in our "Explore" section for maximum visibility seen by COACHES
+ONLY.
           </SingleBox>
         </div>
       </div>

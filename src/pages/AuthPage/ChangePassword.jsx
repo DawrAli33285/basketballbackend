@@ -16,10 +16,19 @@ let {token}=useParams()
 
 const login=async(e)=>{
 e.preventDefault();
-let response=await axios.post(`${BASE_URL}/changePassword`,state)
-if(response.status==200){
-    toastr.success(response.data.message)
-    navigate('/login')
+try{
+  let response=await axios.post(`${BASE_URL}/changePassword`,state)
+  
+      toastr.success(response.data.message)
+      navigate('/login')
+  
+}catch(error){
+  if(error?.response && error?.response?.data){
+    toast.error(error?.response?.data?.error)
+    }else{
+    toast.error("Server error please try again")
+    
+    }
 }
 }
 

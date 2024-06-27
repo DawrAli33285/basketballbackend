@@ -67,6 +67,7 @@ const Pricing = () => {
         <div className="flex items-center flex-col lg:flex-row lg:gap-[30px] mt-5 lg:mt-[50px] mb-12 lg:mb-[100px] ">
           <SinglePricing
             isToggled={isToggled}
+            isYearlyActive={isYearlyActive }
             price={30}
             title={"Basic"}
             yearlyPrice={45}
@@ -75,6 +76,7 @@ const Pricing = () => {
           <SinglePricing
             isToggled={isToggled}
             price={60}
+            isYearlyActive={isYearlyActive }
             title={"Professional"}
             yearlyPrice={105}
             serviceList={serviceList}
@@ -82,6 +84,7 @@ const Pricing = () => {
           <SinglePricing
             isToggled={isToggled}
             price={99}
+            isYearlyActive={isYearlyActive }
             title={"Enterprise"}
             yearlyPrice={250}
             serviceList={serviceList}

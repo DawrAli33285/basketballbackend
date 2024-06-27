@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import "../../pages/PlayerProfile/PlayerProfile.css";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import Select from "react-select";
 
 const SwitchPlayer = ({ players }) => {
@@ -10,19 +10,19 @@ const SwitchPlayer = ({ players }) => {
   const [playerState, setPlayerState] = useState("");
 
   const classOptions = [
-    {value:"",label:'All'},
+    { value: "", label: "All" },
     { value: "2024", label: "2024" },
     { value: "2023", label: "2023" },
     { value: "2022", label: "2022" },
   ];
   const stateOptions = [
-    {value:"",label:'All'},
+    { value: "", label: "All" },
     { value: "North Carolina", label: "North Carolina" },
     { value: "New Jersey", label: "New Jersey" },
     { value: "Los Angeles", label: "Los Angeles" },
   ];
   const positionOptions = [
-    {value:"",label:'All'},
+    { value: "", label: "All" },
     { value: "PG", label: "PG" },
     { value: "SG", label: "SG" },
     { value: "SF", label: "SF" },
@@ -33,12 +33,12 @@ const SwitchPlayer = ({ players }) => {
   const customSelectStyles = {
     control: (baseStyles, state) => ({
       ...baseStyles,
-      borderColor: "#DBDBDB", // Change border color
-      borderRadius: "70px", // Make it rounded
+      borderColor: "#DBDBDB",
+      borderRadius: "70px",
       boxShadow: state.isFocused ? "0 0 0 1px #DBDBDB" : "none",
       "&:focus": {
-        borderColor: "#DBDBDB", // Change border color on focus
-      }, // Optional: shadow on focus
+        borderColor: "#DBDBDB",
+      },
     }),
     menu: (baseStyles) => ({
       ...baseStyles,
@@ -79,51 +79,72 @@ const SwitchPlayer = ({ players }) => {
     });
   };
 
+  const handleReset = () => {
+    setPlayerClass("");
+    setPosition("");
+    setPlayerState("");
+  };
+
   return (
     <div>
       <h4 className="small--gray--text">SWITCH PLAYER</h4>
 
-      {/* filtering area */}
+      {/* Filtering area */}
       <div className="pt-5 pb-2 space-y-5 border-b border-solid border-[#DBDBDB]">
-        <div>
+        <div className="flex flex-col gap-4">
+          <button
+            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"
+            onClick={handleReset}
+          >
+            Reset
+          </button>
           <Select
             styles={customSelectStyles}
             options={classOptions}
             placeholder="Class"
-            onChange={(selectedOption) => setPlayerClass(selectedOption?.value || "")}
+            value={classOptions.find((option) => option.value === playerClass)}
+            onChange={(selectedOption) =>
+              setPlayerClass(selectedOption?.value || "")
+            }
           />
         </div>
-        <div>
+        <div className="flex flex-col gap-4">
           <Select
             styles={customSelectStyles}
             options={positionOptions}
             placeholder="Position"
-            onChange={(selectedOption) => setPosition(selectedOption?.value || "")}
+            value={positionOptions.find((option) => option.value === position)}
+            onChange={(selectedOption) =>
+              setPosition(selectedOption?.value || "")
+            }
           />
         </div>
-        <div>
+        <div className="flex flex-col gap-4">
           <Select
             styles={customSelectStyles}
             options={stateOptions}
             placeholder="State"
-            onChange={(selectedOption) => setPlayerState(selectedOption?.value || "")}
+            value={stateOptions.find((option) => option.value === playerState)}
+            onChange={(selectedOption) =>
+              setPlayerState(selectedOption?.value || "")
+            }
           />
         </div>
       </div>
 
-      {/* players area */}
+      {/* Players area */}
       <div>
-        {/* player list */}
+        {/* Player list */}
         <div>
           {filteredPlayers()
             ?.slice(startIndex, endIndex)
             .map((player, index) => (
               <div
-              style={{width:'17rem'}}
+                style={{ width: "17rem" }}
                 className="flex items-center gap-8 py-3 border-b border-solid border-[#DBDBDB] mb-6"
                 key={index}
               >
-                {/* profile */}
+                {/* Profile */}
                 <div className="min-w-[80px] max-w-[80px] h-[80px] rounded-full overflow-hidden">
                   <img
                     className="w-full h-full object-cover"
@@ -132,16 +153,20 @@ const SwitchPlayer = ({ players }) => {
                   />
                 </div>
 
-                {/* details */}
+                {/* Details */}
                 <div className="space-y-2.5">
-                  <p className="text-[18px] font-medium text-[#000] leading-normal">
-                    {player?.auth?.name}
-                  </p>
+       <Link to={`/player-profile/${player?.auth?._id}`}>
+       <p className="text-[18px] font-medium text-blue-500 leading-normal cursor-pointer"
+   onClick={(e) => e.currentTarget.classList.toggle('underline')}>
+   {player?.auth?.name}
+</p>
+       </Link>
                   <p className="text-base font-normal text-[#000] leading-6">
                     {player?.location}
                   </p>
                   <div className="flex items-center gap-[2px] text-base font-medium text-[#000] leading-normal">
-                    <span>{player?.position?.toUpperCase()}</span>l<span> {player?.height} </span>l
+                    <span>{player?.position?.toUpperCase()}</span>l
+                    <span> {player?.height} </span>l
                     <span> {player?.class} </span>
                   </div>
                 </div>
@@ -149,6 +174,7 @@ const SwitchPlayer = ({ players }) => {
             ))}
         </div>
 
+        {/* Load more button */}
         {players?.length > 7 && (
           <button
             onClick={(e) => {

@@ -3,18 +3,18 @@ import SectionTop from "../SectionTop/SectionTop";
 import PlayerCard from "./PlayerCard";
 import Select from "react-select";
 
-const PlayersArea = ({players,setState}) => {
-const [playerClass,setClass]=useState("")
-console.log("PLAYERS")
-console.log(players)
+const PlayersArea = ({ players, setState }) => {
+  const [playerClass, setClass] = useState("");
+  const [selectedOption, setSelectedOption] = useState({ value: "", label: "All" });
 
   const positionOptions = [
-    {value:'',label:'All'},
+    { value: "", label: "All" },
     { value: "2024", label: "2024" },
     { value: "2023", label: "2023" },
     { value: "2022", label: "2022" },
     { value: "2021", label: "2021" },
   ];
+
   const customSelectStyles = {
     control: (baseStyles, state) => ({
       ...baseStyles,
@@ -63,25 +63,34 @@ console.log(players)
       <SectionTop title={"Top Player’s"} />
 
       {/* year select */}
-      <div className="max-w-[100px] absolute right-[80px] -top-1 ">
+      <div className="flex flex-row items-center space-x-2 w-full max-w-[300px] absolute right-[80px] -top-1">
         <Select
-          defaultValue={{ value: "", label: "All" }}
+          value={selectedOption}
           styles={customSelectStyles}
-        onChange={(e)=>{
-
-     
-          setClass(e.value)
-        }}
+          onChange={(e) => {
+            setClass(e.value);
+            setSelectedOption(e);
+          }}
           options={positionOptions}
+          className="flex-grow"
         />
+        <button
+          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"
+          onClick={() => {
+            setClass("");
+            setSelectedOption({ value: "", label: "All" });
+          }}
+        >
+          Reset
+        </button>
       </div>
 
       {/* players */}
-      <div className="grid grid-cols-1  lg:grid-cols-3  gap-9 lg:gap-[75px]">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-9 lg:gap-[75px]">
         {players &&
-          players?.filter(u=>u?.class?.startsWith(playerClass?.toString()))?.map((player, index) => (
-            <PlayerCard key={index} playerInfo={player} />
-          ))}
+          players
+            .filter((u) => u?.class?.startsWith(playerClass?.toString()))
+            .map((player, index) => <PlayerCard key={index} playerInfo={player} />)}
       </div>
     </div>
   );

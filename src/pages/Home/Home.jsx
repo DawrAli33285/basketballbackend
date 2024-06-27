@@ -9,6 +9,8 @@ import ClassPlayerArea from "../../components/Home/ClassPlayerArea/ClassPlayerAr
 import ReviewArea from "../../components/Home/ReviewArea/ReviewArea";
 import HowItWorks from "../../components/Home/HowItWorks/HowItWorks";
 import axios from "axios";
+import toastr from 'toastr';
+import 'toastr/build/toastr.min.css';
 import React,{useState} from "react";
 import { BASE_URL } from "../../baseurl/baseurl";
 const Home = () => {
@@ -24,16 +26,28 @@ setState({
   newsFeedData:response?.data?.newsFeedData,
   playersData:response?.data?.playersData,
   videosData:response?.data?.videosData,
-  classPlayers:response?.data?.classPlayers
+  classPlayers:response?.data?.classPlayers,
+  testimonial:response?.data?.testimonial
+  
 })
   }
 
 const subscribeMail=async(e)=>{
   e.preventDefault();
-let response=await axios.post(`${BASE_URL}/subscribeMail`,{email})
-console.log(response.data)
+try{
+  let response=await axios.post(`${BASE_URL}/subscribeMail`,{email})
+
   toastr.success("Subscribed successfully")
   setEmail("")
+}catch(error){
+  if(error?.response && error?.response?.data){
+    toastr.error(error?.response?.data?.error)
+    setEmail("")
+    }else{
+    toastr.error("Server error please try again")
+    
+    }
+}
 
 }
 
@@ -91,7 +105,7 @@ console.log(response.data)
       <ClassPlayerArea classPlayers={state?.classPlayers} />
 
       {/* review area */}
-      <ReviewArea />
+      <ReviewArea  reviews={state?.testimonial}/>
     </div>
   );
 };

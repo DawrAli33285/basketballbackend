@@ -15,9 +15,18 @@ const  ForgetPassword = () => {
 
 const login=async(e)=>{
 e.preventDefault();
-let response=await axios.post(`${BASE_URL}/forgetPassword`,state)
-if(response.status==200){
-    toastr.success("Reset Password link sent via email")
+try{
+  let response=await axios.post(`${BASE_URL}/forgetPassword`,state)
+
+  toastr.success("Reset Password link sent via email")
+
+}catch(error){
+  if(error?.response && error?.response?.data){
+    toast.error(error?.response?.data?.error)
+    }else{
+    toast.error("Server error please try again")
+    
+    }
 }
 
 }

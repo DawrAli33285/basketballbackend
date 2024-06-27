@@ -58,7 +58,8 @@ const Navbar = () => {
           </div>
           {/* link wrapper */}
           <div className=" text-black leading-6  flex lg:items-center flex-col lg:flex-row gap-3  sm:gap-7">
-            <NavLink onClick={turnOffNav} to={"/"}>
+            {!localStorage.getItem("user") ||  localStorage.getItem("user") || JSON.parse(localStorage.getItem("user"))?.role=="user"?<>
+              <NavLink onClick={turnOffNav} to={"/"}>
               Home
             </NavLink>
             <NavLink onClick={turnOffNav} to={"/player-list"}>
@@ -79,6 +80,12 @@ const Navbar = () => {
             <NavLink onClick={turnOffNav} to={"/available-players"}>
               Availability Players
             </NavLink>
+            </>:<>
+
+            <NavLink onClick={turnOffNav} to={"/available-players"}>
+              Availability Players
+            </NavLink>
+            </>}
           </div>
 
           {/* button wrapper */}
@@ -88,12 +95,20 @@ const Navbar = () => {
               Download App
             </button>
             {/* login button */}
-            <button
+      {localStorage?.getItem('user')?  <button
+              onClick={() => {
+                localStorage.removeItem('user')
+                window.location.reload(true)
+              }}
+              className="text-sm leading-6 text-primaryColor py-2 px-6 bg-[#fff] rounded-[30px] border border-solid border-primaryColor w-fit"
+            >
+              Log out
+            </button>:      <button
               onClick={() => navigate("/login")}
               className="text-sm leading-6 text-primaryColor py-2 px-6 bg-[#fff] rounded-[30px] border border-solid border-primaryColor w-fit"
             >
               Login/Sign up
-            </button>
+            </button>}
           </div>
         </div>
 

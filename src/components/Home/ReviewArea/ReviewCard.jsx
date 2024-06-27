@@ -9,7 +9,7 @@ const ReviewCard = ({ review }) => {
         <div className="w-[70px] h-[70px] rounded-full overflow-hidden ">
           <img
             className="w-full h-full object-cover"
-            src={review.reviewer_img}
+            src={review?.image}
             alt=""
           />
         </div>
@@ -17,7 +17,7 @@ const ReviewCard = ({ review }) => {
         {/* profiler */}
         <div>
           <p className="text-[#333] font-medium text-base">
-            {review.reviewer_name}
+            {review?.name}
           </p>
 
           {/* star wrapper */}
@@ -42,7 +42,9 @@ const ReviewCard = ({ review }) => {
       </div>
       {/* description */}
       <div className="text-[#333] text-center leading-6 text-base">
-        {review.review_comment}
+        {review?.
+testimonial
+}
       </div>
     </div>
   );

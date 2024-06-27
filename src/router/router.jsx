@@ -109,31 +109,6 @@ let data={
 };
 
 
-// document.addEventListener('DOMContentLoaded',async()=>{
-//   if(window.location.href.match(/create-profile/)){
-//     let userId = JSON.parse(localStorage.getItem('user'))?._id;
-//   let url = `${BASE_URL}/get-profile/${userId}`;
-//   let response=await axios.get(url);
-//   if(response.status==200){
-//     let {profile,players}=response.data 
-//     console.log("RES")
-//     console.log(players)
-//     console.log(profile)
-//   data={
-//     class:players[0]?.class,
-//     about:profile?.about, phoneNumber:profile?.auth?.phoneNumber,jerseyNumber:players[0]?.jerseyNumber,birthPlace:players[0]?.birthPlace, starRating:players[0]?.starRating, athleticaccomplishments:profile?.athleticaccomplishments, name:profile?.auth?.name, location:players[0]?.location, position:players[0]?.position.toUpperCase(), height:players[0]?.height, weight:players[0]?.weight, offers:profile?.offers, coach:profile?.coach?[profile?.coach]:[{
-//       name:profile?.auth?.name,
-//       phone:profile?.auth?.phoneNumber,
-//       email:profile?.auth?.email,
-//       picture:'',
-//       coachProgram:''
-//     }], socialLinks:profile?.socialLinks, stats:profile?.stats, academics:profile?.academics[0], playerClass:players[0]?.class, universityName:players[0]?.institute?.universityName,picture:players[0]?.picture,logo:''
-//   }
-
-//   }
-//   localStorage.setItem('profile',JSON.stringify(data))
-//   }
-// })
 
 
 const router = createBrowserRouter([

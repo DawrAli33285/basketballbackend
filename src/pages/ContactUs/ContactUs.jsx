@@ -3,6 +3,8 @@ import banner from "../../assets/images/contact-banner.png";
 import axios from 'axios'
 import { BASE_URL } from "../../baseurl/baseurl";
 import { useState } from "react";
+import toastr from 'toastr';
+import 'toastr/build/toastr.min.css';
 
 const ContactUs = () => {
 const [state,setState]=useState({
@@ -12,8 +14,23 @@ const [state,setState]=useState({
 })
   const contactNow=async(e)=>{
     e.preventDefault()
+try{
   let respose=await axios.post(`${BASE_URL}/contactUs`,state)
-  console.log(respose.data)
+  setState({
+    name:'',
+    email:'',
+    message:''
+  })
+  toastr.success("success")
+}catch(error){
+  if(error?.response && error?.response?.data){
+    toast.error(error?.response?.data?.error)
+    }else{
+    toast.error("Server error please try again")
+    
+    }
+}
+
 }
 
 

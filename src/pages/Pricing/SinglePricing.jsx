@@ -14,16 +14,30 @@ const SinglePricing = ({
   serviceList,
   yearlyPrice,
   isToggled,
+  isYearlyActive 
 }) => {
   const stripe=useStripe();
+  
   const getSessionToken=async()=>{
+  
     const headers={
       headers:{
         authorization:`Bearer ${JSON.parse(localStorage?.getItem('user'))?.token}`
       }
     }
 
-    let response=await axios.post(`${BASE_URL}/create-session`,{},headers)
+    let subscriptionType;
+
+
+if(isYearlyActive ){
+  subscriptionType="year"
+price=yearlyPrice
+}else{
+ 
+  subscriptionType="month"
+}
+
+    let response=await axios.post(`${BASE_URL}/create-session`,{title,price,subscriptionType},headers)
     console.log(response.data)
    await stripe.redirectToCheckout({
       sessionId:response.data.session.id

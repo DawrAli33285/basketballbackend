@@ -30,11 +30,20 @@ useEffect(()=>{
 },[])
 
 const getAvailabilityPlayer=async()=>{
+try{
     let response=await axios.get(`${BASE_URL}/getAvalabilityPlayers`)
 console.log(response.data)
 setPlayer(response.data.players)
 setVideos(response.data.videos)
 setCurrentVideo(response.data.videos[0]?.video)
+}catch(error){
+    if(error?.response && error?.response?.data){
+        toast.error(error?.response?.data?.error)
+        }else{
+        toast.error("Server error please try again")
+        
+        }
+}
 }
 
 

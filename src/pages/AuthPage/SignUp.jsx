@@ -13,25 +13,41 @@ const [state,setState]=useState({
   lastName:'',
 phoneNumber:'',
 email:'',
-password:''
+password:'',
+role:''
 })
 
 const register=async(e)=>{
   e.preventDefault();
  console.log(state)
-let response=await axios.post(`${BASE_URL}/register`,state)
-if(response.status==200){
+try{
+  let response=await axios.post(`${BASE_URL}/register`,state)
   toastr.success(response.data.message)
   setState({
     firstName:'',
     lastName:'',
   phoneNumber:'',
   email:'',
-  password:''
+  password:'',
+  role:''
   })
+}catch(error){
+  if(error?.response && error?.response?.data){
+    toast.error(error?.response?.data?.error)
+    }else{
+    toast.error("Server error please try again")
+    
+    }
 }
 
+
 }
+const handleRoleChange = (e) => {
+  setState({
+      ...state,
+      role: e.target.value
+  });
+};
 
 
   return (
@@ -190,7 +206,21 @@ if(response.status==200){
             </div>
           </div>
 
+          <div className="w-full relative">
+                        <select
+                            onChange={handleRoleChange}
+                            value={state.role}
+                            className="rounded-lg border-gray-300 shadow-sm focus:border-primaryColor focus:ring focus:ring-primaryColor focus:ring-opacity-50"
+                        >
+                            <option value="">Select Role</option>
+                            <option value="coach">Coach</option>
+                            <option value="player">Player</option>
+                        </select>
+                    </div>
+
+
           {/* checkbox  */}
+       
           <div className="checkbox--holder">
             <input
               onChange={() => setIsAgreed(!isAgreed)}

@@ -3,6 +3,8 @@ import { BASE_URL } from "../../baseurl/baseurl";
 import "./NewsArticle.css";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import toastr from 'toastr';
+import 'toastr/build/toastr.min.css';
 
 const NewsArticle = () => {
   const [state, setState] = useState(null);
@@ -29,8 +31,17 @@ const NewsArticle = () => {
   }, [state]);
 
   const fetchNewsFeed = async () => {
-    let response = await axios.get(`${BASE_URL}/getSingleNewsFeed/${id}`);
-    setState(response?.data?.newsFeed);
+try{
+  let response = await axios.get(`${BASE_URL}/getSingleNewsFeed/${id}`);
+  setState(response?.data?.newsFeed);
+}catch(error){
+  if(error?.response && error?.response?.data){
+    toast.error(error?.response?.data?.error)
+    }else{
+    toast.error("Server error please try again")
+    
+    }
+}
   };
 
   const createLinkedDescription = (description, players) => {

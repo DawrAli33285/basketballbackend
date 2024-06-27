@@ -1,14 +1,7 @@
 import { useEffect, useState } from "react";
 import ReviewCard from "./ReviewCard";
 
-const ReviewArea = () => {
-  const [reviews, setReviews] = useState(null);
-
-  useEffect(() => {
-    fetch("/reviews.json")
-      .then((res) => res.json())
-      .then((data) => setReviews(data));
-  }, []);
+const ReviewArea = ({reviews}) => {
 
   return (
     <div className="pb-12">
@@ -18,7 +11,7 @@ const ReviewArea = () => {
       </p>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {reviews &&
-          reviews.map((item, index) => (
+          reviews?.map((item, index) => (
             <ReviewCard key={index} review={item} />
           ))}
       </div>

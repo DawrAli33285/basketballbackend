@@ -24,7 +24,7 @@ const AcademicsForm = () => {
     
     const renderOptions = () => {
         const options = [];
-        for (let i = 400; i <= 1600; i += 100) {
+        for (let i = 400; i <= 1600; i += 1) {
             options.push(
                 <option key={i} value={i}>{i}</option>
             );
@@ -52,7 +52,7 @@ const AcademicsForm = () => {
                         value={academics.gpa || ""}
                     >
                         <option value="">Select GPA</option>
-                        {renderGpaOptions(1.1, 4.0, 0.1)}
+                        {renderGpaOptions(1.1, 4.9, 0.1)}
                     </select>
                 </div>
                 <div className="formFields">
@@ -77,13 +77,14 @@ const AcademicsForm = () => {
                 </div>
                 <div className="formFields">
                     <label style={{ fontSize: "16px" }}>NCCA ID</label>
-                    <select
+                   <input type="number"  onChange={(e) => handleChange('ncaaId', e.target.value)} value={academics.ncaaId || ""}/>
+                    {/* <select
                         onChange={(e) => handleChange('ncaaId', e.target.value)}
                         value={academics.ncaaId || ""}
                     >
                         <option value="">NCCA ID</option>
                         {renderGpaOptions(1.1, 4.0, 0.1)}
-                    </select>
+                    </select> */}
                 </div>
 
             </div>

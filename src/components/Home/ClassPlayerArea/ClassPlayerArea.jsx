@@ -12,10 +12,10 @@ const ClassPlayerArea = ({classPlayers}) => {
       <SectionTop title={"Class of 2024 Player’s"} />
 
       {/* wrapper */}
-      <div  className="grid grid-cols-2 lg:grid-cols-6 gap-36 pt-6 pb-10">
+      <div  className="grid grid-cols-1 lg:grid-cols-6 gap-36 pt-6 pb-10">
         {classPlayers &&
           classPlayers?.map((player, index) => (
-            <div style={{width:'15rem'}}  key={index} className="flex flex-col items-center gap-5">
+            <div  key={index} className="lg:w-[15rem] w-full flex flex-col items-center gap-5">
               {/* player image */}
               <div className=" w-[100px] h-[100px]  lg:w-[130px]   lg:h-[130px] rounded-full overflow-hidden">
                 <img

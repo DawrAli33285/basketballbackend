@@ -90,3 +90,23 @@ textarea {
     cursor: pointer;
     font-size: 16px;
 }
+
+
+
+
+
+.imageCropContainer {
+  position: relative;
+  width: 100%;
+  height: 400px; /* Adjust as needed */
+  overflow: hidden; /* Ensure content does not overflow */
+}
+
+.croppedImageContainer {
+  margin-top: 20px;
+}
+
+.croppedImage {
+  max-width: 100%;
+  height: auto;
+}

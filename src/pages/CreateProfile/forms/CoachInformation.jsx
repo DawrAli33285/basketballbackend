@@ -32,7 +32,7 @@ const CoachInformationForm = ({ data }) => {
             <h2 style={{ fontSize: "22px" }}>Coach Information</h2>
             <div className="form-data">
                 <div className="coachFields">
-                    <div className="formFields">
+                    {/* <div className="formFields">
                         <label style={{ fontSize: "16px" }}>Coach Role</label>
                         <input
                             type="text"
@@ -41,7 +41,7 @@ const CoachInformationForm = ({ data }) => {
                             value={coachinformation.role || ""}
                             onChange={handleInputChange}
                         />
-                    </div>
+                    </div> */}
                     <div className="formFields">
                         <label style={{ fontSize: "16px" }}>Coach Name</label>
                         <input
