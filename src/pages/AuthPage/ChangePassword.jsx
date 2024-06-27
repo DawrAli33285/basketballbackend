@@ -24,9 +24,9 @@ try{
   
 }catch(error){
   if(error?.response && error?.response?.data){
-    toast.error(error?.response?.data?.error)
+    toastr.error(error?.response?.data?.error)
     }else{
-    toast.error("Server error please try again")
+    toastr.error("Server error please try again")
     
     }
 }
