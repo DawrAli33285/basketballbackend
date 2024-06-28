@@ -683,7 +683,7 @@ const PlayerProfile = () => {
                         {playerData?.socialLinks?.length > 0 ? (
   <div className="flex gap-4">
     {playerData?.socialLinks
-      ?.filter((u) => u?.link?.length > 0)
+      ?.filter((u) =>u?.social_type!="phoneNumber" && u?.link?.length > 0)
       ?.map((linkItem, index) => (
         <div key={`socialLink_${index}`} className="flex items-center space-x-2">
           {linkItem.social_type === 'instagram' && (
@@ -882,7 +882,7 @@ const PlayerProfile = () => {
                               </div>
                               <div className="space-y-2">
                                 <p className="text-xs text-[#000] leading-normal font-bold">Coach Program</p>
-                                <p className="text-base text-[#000] leading-6">{playerData?.coach?.coachProgram}</p>
+                                <p className="text-base text-[#000] leading-6">{playerData?.coach?.type}</p>
                               </div>
                             </>
                           ) : (

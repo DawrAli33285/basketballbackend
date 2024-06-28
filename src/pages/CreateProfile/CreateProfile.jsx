@@ -497,7 +497,7 @@ for(let key in contactDetail){
    
     if (response.status === 200) {
       toastr.success("Profile created successfully")
-      navigate('/')
+      // navigate('/')
     }
    }catch (error) {
     if (error?.response?.data?.error) {
