@@ -337,9 +337,6 @@ if (state?.
     } else if (state?.academics?.actScore?.length == 0) {
       toastr.error("Please enter actscore")
       return false
-    } else if (state?.academics?.ncaaId?.length == 0) {
-      toastr.error("Please enter nnccaId")
-      return false
     }
 
 
@@ -497,7 +494,7 @@ for(let key in contactDetail){
    
     if (response.status === 200) {
       toastr.success("Profile created successfully")
-      // navigate('/')
+      navigate('/')
     }
    }catch (error) {
     if (error?.response?.data?.error) {
