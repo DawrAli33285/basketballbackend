@@ -41,7 +41,7 @@ const ReviewCard = ({ review }) => {
         </div>
       </div>
       {/* description */}
-      <div className="text-[#333] text-center leading-6 text-base">
+      <div className="text-[#333]  leading-6 text-base">
         {review?.
 testimonial
 }

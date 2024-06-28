@@ -81,13 +81,13 @@ console.log(videoInfo)
   
   
   return (
-    <div className="video-card">
+    <div className="video-card relative">
       {/* Video area */}
-      <div className="w-full flex justify-end">
+      <div className="w-full flex justify-end absolute top-[10px] right-[20px] z-[999]">
         <svg
           className="cursor-pointer"
           onClick={togglePopup}
-          fill="#000000"
+          fill="white"
           height="25px"
           width="25px"
           xmlns="http://www.w3.org/2000/svg"
@@ -166,7 +166,7 @@ console.log(videoInfo)
       )}
       </div>
 
-      <div className="w-full h-[220px] rounded-xl overflow-hidden mb-5 relative">
+      <div className="w-full  rounded-xl overflow-hidden mb-[6px] relative">
         <CustomVideoPlayer src={videoInfo?.video} alt={videoInfo?.description} />
       </div>
 
@@ -174,7 +174,7 @@ console.log(videoInfo)
       
 
       {/* Title and description */}
-      <h3 className="text-[18px] font-medium pb-2.5 text-black">{videoInfo?.title}</h3>
+      <h3 className="text-[18px] font-medium  text-black">{videoInfo?.title}</h3>
       <p className="text-base text-black font-medium">{videoInfo?.description}</p>
     </div>
   );

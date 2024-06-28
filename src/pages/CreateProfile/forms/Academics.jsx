@@ -77,7 +77,19 @@ const AcademicsForm = () => {
                 </div>
                 <div className="formFields">
                     <label style={{ fontSize: "16px" }}>NCCA ID</label>
-                   <input type="number"  onChange={(e) => handleChange('ncaaId', e.target.value)} value={academics.ncaaId || ""}/>
+                    <input 
+  type="text"
+  maxLength={10} // Limit input to 10 characters
+  pattern="[0-9]*" // Only allow numeric input
+  onChange={(e) => {
+    const input = e.target.value;
+    // Validate if input is numeric and up to 10 digits
+    if (/^\d{0,10}$/.test(input)) {
+      handleChange('ncaaId', input); // Update state with valid input
+    }
+  }}
+  value={academics.ncaaId || ""}
+/>
                     {/* <select
                         onChange={(e) => handleChange('ncaaId', e.target.value)}
                         value={academics.ncaaId || ""}

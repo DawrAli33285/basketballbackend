@@ -365,6 +365,44 @@ if (state?.
         const offerDate = new Date(state.offers.date);
     const offerYear = offerDate.getFullYear();
     const currentYear = new Date().getFullYear();
+    const isValidEmail = (email) => {
+      // Regular expression for basic email validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+  };
+  if (state?.coachinformation?.email) {
+    if (isValidEmail(state.coachinformation.email)) {
+        
+       
+    } else {
+  
+        toastr.error('Invalid email format');
+        return false;
+       
+    }
+}
+const isValidBirthPlace = (birthPlace) => {
+  // Regular expression for city, state format validation
+    const birthPlaceRegex = /^[a-zA-Z\s]+,\s*[a-zA-Z]{2}$/;
+  return birthPlaceRegex.test(birthPlace);
+};
+
+
+
+if(state?.personalInformation?.birthPlace){
+  const birthPlace = state.personalInformation.birthPlace.trim(); // Trim whitespace
+  if (isValidBirthPlace(birthPlace)) {
+    
+   
+} else {
+    
+  
+  toastr.error("Invalid birth place format")
+  console.log(state)
+  return false;
+}
+}
+
 
     if (state?.offers?.status?.length == 0) {
       toastr.error("Please enter status")

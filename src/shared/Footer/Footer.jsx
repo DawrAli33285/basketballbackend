@@ -12,7 +12,7 @@ const Footer = () => {
         backgroundPosition: "center",
         backgroundSize: "cover",
       }}
-      className=" pt-8 lg:pt-[60px] pb-5 bg-cover bg-no-repeat bg-center"
+      className="w-full pt-8 lg:pt-[60px] pb-5 bg-cover bg-no-repeat bg-center"
     >
       {/* container */}
       <div className="max-w-[1000px] mx-auto px-3 lg:px-0 ">

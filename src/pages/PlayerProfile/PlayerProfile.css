@@ -190,7 +190,7 @@
 .popup {
   position: absolute;
   top: 13rem; /* Adjust as needed */
-  right: 10px; /* Adjust as needed */
+
   background-color: #fff;
   border: 1px solid #ccc;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);

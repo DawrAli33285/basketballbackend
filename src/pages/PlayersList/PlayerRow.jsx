@@ -51,13 +51,14 @@ const PlayerRow = ({ player }) => {
             />
           </div>
           <div>
-            <Link
-              to={`/player-profile/${player?._id}`}
-              className="text-[18px] font-medium text-[#000] w-fit block"
-            >
-              {player?.auth?.name}
-            </Link>
-          </div>
+  <Link
+    to={`/player-profile/${player?._id}`}
+    className="text-[18px] font-medium text-[#000] w-fit block text-blue-500 hover:underline"
+  >
+    {player?.auth?.name}
+  </Link>
+</div>
+
         </div>
 
         {/* class */}

@@ -56,7 +56,7 @@ try{
       <LaunchEvent />
 
       {/* get notification */}
-      <form className="flex items-center gap-4 flex-col lg:flex-row ">
+      <form className="flex items-center mt-[40px] gap-4 flex-col lg:flex-row ">
         <div className=" w-full lg:w-[315px]">
           <input
           value={email}

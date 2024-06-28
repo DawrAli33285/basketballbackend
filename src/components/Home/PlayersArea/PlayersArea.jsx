@@ -86,7 +86,7 @@ const PlayersArea = ({ players, setState }) => {
       </div>
 
       {/* players */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-9 lg:gap-[75px]">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-[20px] lg:gap-[40px] mt-[20px]">
         {players &&
           players
             .filter((u) => u?.class?.startsWith(playerClass?.toString()))

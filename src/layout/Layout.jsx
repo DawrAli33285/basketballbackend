@@ -6,15 +6,18 @@ const Layout = () => {
   const { pathname } = useLocation();
 
   return (
+    <>
     <div className="w-full px-[20px]">
       {!(pathname === "/login" || pathname === "/sign-up") && <Navbar />}
-      <div className="max-w-[1000px] mx-auto px-3 lg:px-0">
+      <div className="max-w-[1440px] mx-auto px-3 lg:px-0">
         
         <Outlet />
       </div>
 
-      {!(pathname === "/login" || pathname === "/sign-up") && <Footer />}
+      
     </div>
+    {!(pathname === "/login" || pathname === "/sign-up") && <Footer />}
+    </>
   );
 };
 

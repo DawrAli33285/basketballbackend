@@ -92,12 +92,7 @@ const SwitchPlayer = ({ players }) => {
       {/* Filtering area */}
       <div className="pt-5 pb-2 space-y-5 border-b border-solid border-[#DBDBDB]">
         <div className="flex flex-col gap-4">
-          <button
-            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"
-            onClick={handleReset}
-          >
-            Reset
-          </button>
+
           <Select
             styles={customSelectStyles}
             options={classOptions}
@@ -129,6 +124,12 @@ const SwitchPlayer = ({ players }) => {
               setPlayerState(selectedOption?.value || "")
             }
           />
+                    <button
+            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"
+            onClick={handleReset}
+          >
+            Reset
+          </button>
         </div>
       </div>
 
@@ -156,10 +157,10 @@ const SwitchPlayer = ({ players }) => {
                 {/* Details */}
                 <div className="space-y-2.5">
        <Link to={`/player-profile/${player?.auth?._id}`}>
-       <p className="text-[18px] font-medium text-blue-500 leading-normal cursor-pointer"
-   onClick={(e) => e.currentTarget.classList.toggle('underline')}>
-   {player?.auth?.name}
+       <p className="text-[18px] font-medium text-blue-500 leading-normal cursor-pointer hover:underline">
+  {player?.auth?.name}
 </p>
+
        </Link>
                   <p className="text-base font-normal text-[#000] leading-6">
                     {player?.location}

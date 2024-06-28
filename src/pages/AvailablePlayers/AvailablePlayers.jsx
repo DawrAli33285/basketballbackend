@@ -1,16 +1,17 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './AvailablePlayers.css';
 import AvailablePlayersRow from './AvailablePlayersRow';
 import axios from 'axios'
+import testimg from "../../assets/images/coach-cover.png"
 import { BASE_URL } from '../../baseurl/baseurl';
 export default function AvailablePlayers() {
     const navigate = useNavigate()
     const [currentVideo, setCurrentVideo] = useState();
     const [isPlaying, setIsPlaying] = useState(false);
-    const [players,setPlayer]=useState([])
-    const [videos,setVideos]=useState([])
-
+    const [players, setPlayer] = useState([])
+    const [videos, setVideos] = useState([])
+    const [news,setNews]=useState([])
 
     const handleVideoClick = (src) => {
         setCurrentVideo(src);
@@ -25,26 +26,27 @@ export default function AvailablePlayers() {
             setIsPlaying(false);
         }
     };
-useEffect(()=>{
-    getAvailabilityPlayer();
-},[])
+    useEffect(() => {
+        getAvailabilityPlayer();
+    }, [])
 
-const getAvailabilityPlayer=async()=>{
-try{
-    let response=await axios.get(`${BASE_URL}/getAvalabilityPlayers`)
-console.log(response.data)
-setPlayer(response.data.players)
-setVideos(response.data.videos)
-setCurrentVideo(response.data.videos[0]?.video)
-}catch(error){
-    if(error?.response && error?.response?.data){
-        toastr.error(error?.response?.data?.error)
-        }else{
-        toastr.error("Server error please try again")
-        
+    const getAvailabilityPlayer = async () => {
+        try {
+            let response = await axios.get(`${BASE_URL}/getAvalabilityPlayers`)
+            console.log(response.data)
+            setPlayer(response.data.players)
+            setVideos(response.data.videos)
+            setCurrentVideo(response.data.videos[0]?.video)
+            setNews(response?.data?.news)
+        } catch (error) {
+            if (error?.response && error?.response?.data) {
+                toastr.error(error?.response?.data?.error)
+            } else {
+                toastr.error("Server error please try again")
+
+            }
         }
-}
-}
+    }
 
 
     return (
@@ -52,7 +54,7 @@ setCurrentVideo(response.data.videos[0]?.video)
             <div className='flex flex-col gap-[10px]'>
                 <div className='flex justify-between'>
                     <div className='w-[24px] h-[24px]' onClick={() => navigate(-1)}><svg xmlns="http://www.w3.org/2000/svg" width="17" height="15" viewBox="0 0 17 15" fill="none" class="w-full h-full"><path d="M1.25 7.27441L16.25 7.27441" stroke="#130F26" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M7.2998 13.299L1.2498 7.275L7.2998 1.25" stroke="#130F26" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
-                    <h2 className=' text-lg font-sfPro lg:w-[200px]'>PlayerList</h2>
+
                 </div>
                 <div className=" pt-12 lg:pt-[60px] mb-8 lg:mb-[115px]  w-full  ">
 
@@ -65,9 +67,9 @@ setCurrentVideo(response.data.videos[0]?.video)
                         </div>
 
                         <div>
-                     {players?.map((player,index)=>{
-                        return  <AvailablePlayersRow key={index.toString()} player={player} />
-                     })}
+                            {players?.map((player, index) => {
+                                return <AvailablePlayersRow key={index.toString()} player={player} currentVideo={currentVideo} />
+                            })}
                         </div>
                     </div>
 
@@ -109,6 +111,44 @@ setCurrentVideo(response.data.videos[0]?.video)
                             </div>
                         </div>
                     ))}
+                </div>
+                <div className='news-draft'>
+                    <h2 className='text-[18px] font-sfPro font-bold'>Draft News</h2>
+                    <div className='news-wrapper-draft'>
+                        {/* <div className='news-box-draft'>
+                            <div className='draft-cont'>
+                                <h2 className='font-[16px] font-sfPro'>
+                                    3-Point Revolution: How the Long-Range
+                                </h2>
+                                <p className='text-[14px] font-normal'>
+                                    Basketball, often referred to as "the beautiful game," transcends the boundaries of sport...
+                                </p>
+                            </div>
+                            <span className='draft-image'>
+                                <img src={testimg} alt="draft" />
+
+                            </span>
+                        </div> */}
+                        {news?.map((val,i)=>{
+                            return <Link to={`/news-article/${val?._id}`}>
+                            
+                            <div className='news-box-draft'>
+                            <div className='draft-cont'>
+                                <h2 className='font-[16px] font-sfPro'>
+                                   {val?.title}
+                                </h2>
+                                <p className='text-[14px] font-normal'>
+                                       {val?.description}
+                                </p>
+                            </div>
+                            <span className='draft-image'>
+                                <img src={val?.banner} alt="draft" />
+
+                            </span>
+                        </div>
+                            </Link>
+                        })}
+                    </div>
                 </div>
             </div>
         </div>

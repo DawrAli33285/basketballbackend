@@ -26,7 +26,7 @@ const ProfileProvider = ({ children }) => {
                     try {
                         let url = `${BASE_URL}/get-profile/${userId}`;
                         let response = await axios.get(url);
-                        console.log("response")
+                        console.log("response GET")
                         console.log(response.data)
                         if (response.status === 200) {
                             let { profile, players } = response.data;

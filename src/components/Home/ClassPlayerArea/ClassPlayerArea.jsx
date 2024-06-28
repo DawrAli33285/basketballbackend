@@ -27,12 +27,15 @@ const ClassPlayerArea = ({classPlayers}) => {
 
               {/* player details */}
               <div  className="text-center space-y-1.5">
-                <p className="text-[#000] text-base font-medium leading-normal">
-                  {" "}
-                  {player?.auth?.name}{" "}
-                </p>
-                <div className="flex items-center text-sm text-[#171717] gap-[2px]">
-                  <span>{player?.position.toUpperCase()}</span>l<span> {player?.height} </span>l
+  <Link to={`/player-profile/${player?.auth?._id}`}>
+  <p className="text-[#000] cursor-pointer text-base font-medium leading-normal text-blue-500 hover:underline">
+  {player?.auth?.name}
+</p>
+
+  </Link>
+                <div className="flex items-center text-sm text-[#171717] gap-[2px] lg:flex-row flex-col">
+                  <span>{player?.position.toUpperCase()}</span><span className=" hidden lg:block">l</span><span> {player?.height} </span>
+                  <span className=" hidden lg:block">l</span>
                   <span>{player?.location}</span>
                 </div>
                 <Link

@@ -1,14 +1,25 @@
 import { useState } from "react";
 
-export default function AvailablePlayersRow({ player }) {
+export default function AvailablePlayersRow({ player, currentVideo }) {
     const [Collapsed, setCollapsed] = useState(true)
-   console.log("PLAYER")
-   console.log(player)
+    const [isPlaying2, setIsPlaying2] = useState(false);
+    console.log("PLAYER")
+    console.log(player)
+    const togglePlayPausePlayer = () => {
+        const videoElement = document.getElementById('videoPlayer2');
+        if (videoElement.paused) {
+            videoElement.play();
+            setIsPlaying2(true);
+        } else {
+            videoElement.pause();
+            setIsPlaying2(false);
+        }
+    };
     return (
-        <div className="mt-[18px] border-b-[2px] border-b-[#DBDBDB] flex flex-col gap-[20px] pb-[20px]">
+        <div className="mt-[18px] border-b-[2px] border-b-[#DBDBDB] flex flex-col gap-[6px] lg:gap-[20px] pb-[20px]">
             <div className="flex justify-between items-center mobile">
                 <span className="flex gap-[18px] items-center w-[100%] lg:w-[35%]">
-                    <img src={player?.picture}className="w-[60px] h-[60px] rounded-[100%] object-cover" alt="avatar" />
+                    <img src={player?.picture} className="w-[40px] h-[40px]  lg:w-[60px] lg:h-[60px] rounded-[100%] object-cover" alt="avatar" />
                     <p className=" font-sfPro text-[18px]">{player?.auth?.name}</p>
                 </span>
                 <span className="w-[100%] lg:w-[35%]">
@@ -35,27 +46,21 @@ export default function AvailablePlayersRow({ player }) {
                             />
                         </svg>
                     </button>
-{JSON.parse(localStorage.getItem("user"))?.role=="coach"?<>
-    <div>
-    <svg width="25" height="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M12 6.00019C10.2006 3.90317 7.19377 3.2551 4.93923 5.17534C2.68468 7.09558 2.36727 10.3061 4.13778 12.5772C5.60984 14.4654 10.0648 18.4479 11.5249 19.7369C11.6882 19.8811 11.7699 19.9532 11.8652 19.9815C11.9483 20.0062 12.0393 20.0062 12.1225 19.9815C12.2178 19.9532 12.2994 19.8811 12.4628 19.7369C13.9229 18.4479 18.3778 14.4654 19.8499 12.5772C21.6204 10.3061 21.3417 7.07538 19.0484 5.17534C16.7551 3.2753 13.7994 3.90317 12 6.00019Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
-                    </div>
-</>:``}
+                    {JSON.parse(localStorage.getItem("user"))?.role == "coach" ? <>
+                        <div>
+                            <svg width="25" height="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M12 6.00019C10.2006 3.90317 7.19377 3.2551 4.93923 5.17534C2.68468 7.09558 2.36727 10.3061 4.13778 12.5772C5.60984 14.4654 10.0648 18.4479 11.5249 19.7369C11.6882 19.8811 11.7699 19.9532 11.8652 19.9815C11.9483 20.0062 12.0393 20.0062 12.1225 19.9815C12.2178 19.9532 12.2994 19.8811 12.4628 19.7369C13.9229 18.4479 18.3778 14.4654 19.8499 12.5772C21.6204 10.3061 21.3417 7.07538 19.0484 5.17534C16.7551 3.2753 13.7994 3.90317 12 6.00019Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                        </div>
+                    </> : ``}
                 </span>
             </div>
-            <div className={`${Collapsed ? "opacity-0 h-0" : "opacity-100 h-auto"}  flex flex-col gap-[20px] transition-all duration-500 ease-out`}>
+            <div className={`${Collapsed ? "opacity-0 h-0 hidden" : "opacity-100 h-auto flex"}   flex-col gap-[20px] transition-all duration-500 ease-out`}>
                 <div className="flex items-center justify-between">
                     <span className="flex flex-col justify-center items-center">
-                        <h2 className="text-[22px] font-bold font-sfPro flex items-center">{player.name}                        <svg width="12" height="7" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g id="Frame">
-<g id="Group">
-<g id="Layer 2">
-<path id="Vector" d="M15.8905 7.5036C15.647 7.36199 15.4281 7.18163 15.2425 6.9696C15.2613 6.67441 15.3316 6.38479 15.4503 6.11385C15.6685 5.4981 15.9153 4.8006 15.5193 4.25835C15.1233 3.7161 14.3755 3.73335 13.7193 3.74835C13.4293 3.77819 13.1364 3.7584 12.853 3.68985C12.7021 3.44423 12.5943 3.17459 12.5343 2.8926C12.3483 2.25885 12.136 1.5426 11.4843 1.3281C10.8558 1.1256 10.2738 1.5711 9.7593 1.9626C9.53729 2.16534 9.28005 2.32573 9.0003 2.43585C8.71762 2.32663 8.45752 2.1662 8.23305 1.9626C7.72005 1.57335 7.1403 1.12335 6.5088 1.32885C5.85855 1.54035 5.6463 2.25885 5.4588 2.8926C5.3989 3.17368 5.29216 3.44268 5.14305 3.68835C4.85918 3.75672 4.56587 3.777 4.2753 3.74835C3.6168 3.73035 2.87505 3.71085 2.4753 4.25835C2.07555 4.80585 2.3253 5.4981 2.5443 6.1131C2.66463 6.38363 2.73599 6.67338 2.75505 6.96885C2.56986 7.18116 2.35123 7.36179 2.1078 7.5036C1.5588 7.8786 0.935547 8.30535 0.935547 8.99835C0.935547 9.69135 1.5588 10.1166 2.1078 10.4931C2.35117 10.6347 2.5698 10.8151 2.75505 11.0271C2.73799 11.3225 2.66866 11.6125 2.5503 11.8836C2.3328 12.4986 2.0868 13.1961 2.48205 13.7384C2.8773 14.2806 3.6228 14.2634 4.28205 14.2484C4.57227 14.2185 4.86546 14.2383 5.14905 14.3069C5.29933 14.5527 5.40686 14.8223 5.46705 15.1041C5.65305 15.7379 5.8653 16.4541 6.51705 16.6686C6.62154 16.7021 6.73057 16.7193 6.8403 16.7196C7.3677 16.6439 7.85789 16.4041 8.2413 16.0341C8.4633 15.8314 8.72054 15.671 9.0003 15.5609C9.28298 15.6701 9.54308 15.8305 9.76755 16.0341C10.2813 16.4264 10.8633 16.8741 11.4925 16.6679C12.1428 16.4564 12.355 15.7379 12.5425 15.1049C12.6027 14.8233 12.7102 14.5539 12.8605 14.3084C13.1433 14.2395 13.4357 14.2192 13.7253 14.2484C14.3838 14.2641 15.1255 14.2859 15.5253 13.7384C15.925 13.1909 15.6753 12.4986 15.4563 11.8829C15.3368 11.6126 15.2655 11.3235 15.2455 11.0286C15.4308 10.8161 15.6498 10.6355 15.8935 10.4939C16.4425 10.1189 17.0658 9.69135 17.0658 8.99835C17.0658 8.30535 16.4403 7.87935 15.8905 7.5036Z" fill="#49ADF4"/>
-<path id="Vector_2" d="M8.25062 11.0625C8.17674 11.0626 8.10357 11.0481 8.03534 11.0198C7.96711 10.9915 7.90518 10.9499 7.85312 10.8975L6.35312 9.3975C6.25376 9.29087 6.19966 9.14984 6.20224 9.00411C6.20481 8.85838 6.26384 8.71935 6.3669 8.61629C6.46996 8.51323 6.609 8.45419 6.75473 8.45162C6.90045 8.44905 7.04149 8.50314 7.14812 8.6025L8.30312 9.7575L10.9131 7.8C11.0325 7.71049 11.1825 7.67206 11.3302 7.69316C11.4779 7.71425 11.6111 7.79316 11.7006 7.9125C11.7901 8.03185 11.8286 8.18187 11.8075 8.32955C11.7864 8.47724 11.7075 8.61049 11.5881 8.7L8.58812 10.95C8.49073 11.023 8.37232 11.0624 8.25062 11.0625Z" fill="white"/>
-</g>
-</g>
-</g>
-</svg></h2>
-                        <p className="text-[16px] font-sfPro">{player.school}</p>
+                        <h2 className="m-0 text-[22px] font-bold font-sfPro flex items-center">
+                            {player?.auth?.name}
+                         
+                        </h2>
+                        <p className="text-[16px] font-sfPro">{player?.institute?.universityName}</p>
                     </span>
                     <span>
                         <p className="font-sfPro text-[14px]">{player?.class}</p>
@@ -84,7 +89,34 @@ export default function AvailablePlayersRow({ player }) {
                     </span>
                 </div>
                 <p className="text-[16px] font-sfPro">
-                    {player?.remarks}
+                    <span className="flex gap-[10px] items-center">
+                        <span className="w-[60%]">
+                            Jan. 20, 2023 Castle didn't have a great Hoophall,  needing 20 shots to score 15 points in a loss to powerhouse IMG Academy,  but still looked like one of the most intriguing long-term prospects in  the class as a 6-6 guard with a 6-9 wingspan, an ideal frame and  outstanding court vision and passing creativity off a live dribble.
+                        </span>
+                        <div className="video-container mb-8 relative w-[40%]">
+                            <video
+                                
+                                id="videoPlayer2"
+                                src={currentVideo}
+                                className="rounded-[10px] bg-[rgba(255,255,255,0.40)] w-full h-auto"
+                            />
+                            <div
+                                className="video-overlay absolute inset-0 flex items-center justify-center"
+                                onClick={togglePlayPausePlayer}
+                            >
+                                {isPlaying2 ? (
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="18" viewBox="0 0 15 18" fill="none">
+                                        <path fillRule="evenodd" clipRule="evenodd" d="M4 2H1C0.447715 2 0 2.44772 0 3V15C0 15.5523 0.447715 16 1 16H4C4.55228 16 5 15.5523 5 15V3C5 2.44772 4.55228 2 4 2ZM14 2H11C10.4477 2 10 2.44772 10 3V15C10 15.5523 10.4477 16 11 16H14C14.5523 16 15 15.5523 15 15V3C15 2.44772 14.5523 2 14 2Z" stroke="white" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+                                    </svg>
+                                ) : (
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="18" viewBox="0 0 15 18" fill="none">
+                                        <path fillRule="evenodd" clipRule="evenodd" d="M14 8.78738C14 6.67844 3.19057 -0.0682953 1.96437 1.14481C0.73817 2.35792 0.620266 15.1025 1.96437 16.4299C3.30848 17.762 14 10.8963 14 8.78738Z" stroke="white" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+                                    </svg>
+                                )}
+                            </div>
+                        </div>
+                    </span>
+                    The  UConn commit has taken a different pathway than most elite prospects in  emerging as a potential top-10 recruit, playing at Newton High School --  a small public school in Georgia -- and Atlanta Xpress on the Under  Armour grassroots circuit. That rise was partially fueled by a 42-point  performance last month against Duncanville, ESPN's No. 1 ranked team,  featuring a barrage of difficult pull-up 3-pointers and bully ball  finishes in the lane using both hands, highlighting his extremely high  upside. While the game comes easily for Castle thanks to his smooth  ballhandling, fluidity-changing speeds and ability to make high-level  reads operating out of pick-and-roll, he can still become more  consistent and efficient with his approach. He plays a very casual style  that includes too many live-ball turnovers and defensive lapses and is  still finding his way as both a finisher and perimeter shooter. He lacks  a degree of explosiveness and doesn't show much emotion on the floor,  not communicating with teammates and being feast or famine from  possession to possession. Castle will be asked to ramp up his intensity  significantly next season under coach Danny Hurley at UConn, which is  said to be one of the main reasons he picked the Huskies. With most of  UConn's backcourt rotation either graduating or potentially entering the  2023 NBA draft, Castle should be in a strong position to make his case  as a one-and-done candidate in the Big East like his significant talent  level suggests. -- Jonathan Givony
                 </p>
             </div>
         </div>

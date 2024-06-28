@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 
 const PlayerCard = ({ playerInfo }) => {
   return (
-    <div style={{width:'25rem'}} className="flex items-end gap-7">
+    <div  className="flex items-end gap-7 w-full">
       {/* image */}
-      <div className=" w-[100px] h-[100px] lg:w-[120px]   lg:h-[120px] rounded-full overflow-hidden ">
+      <div className=" w-[80px] rounded-full overflow-hidden ">
         <img
           className="w-full h-full object-cover"
           src={playerInfo?.picture}
@@ -15,9 +15,12 @@ const PlayerCard = ({ playerInfo }) => {
 
       {/* info */}
       <div >
-        <p className="text-[18px] text-black font-medium">
-          {playerInfo?.auth?.name}
-        </p>
+<Link to={`/player-profile/${playerInfo?.auth?._id}`}>
+<p className="text-[18px] cursor-pointer text-black font-medium text-blue-500 hover:underline">
+  {playerInfo?.auth?.name}
+</p>
+</Link>
+
         <p className="text-base text-black font-normal leading-6">
           {playerInfo?.location}
         </p>

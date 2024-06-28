@@ -7,7 +7,9 @@ const SectionTop = ({ title, link = "/" }) => {
       <p className="text-[20px] font-semibold text-black"> {title} </p>
       <Link className="text-base text-black leading-5" to={link}>
         View All{" "}
+        
       </Link>
+      
     </div>
   );
 };

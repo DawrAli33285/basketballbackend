@@ -429,11 +429,15 @@ const PersonalInformationForm = ({ setState, data }) => {
                 <div className="formFields">
                     <label style={{ fontSize: "16px" }}>Birthplace</label>
                     <input
-                        onChange={(e) => handleChange('birthPlace', e.target.value)}
-                        type="text"
-                        value={state.personalInformation.birthPlace || ""}
-                        placeholder="Write birth place"
-                    />
+  onChange={(e) => handleChange('birthPlace', e.target.value)}
+  type="text"
+  value={state.personalInformation.birthPlace || ""}
+  placeholder="City, State (e.g., New York, NY)"
+  pattern="^[a-zA-Z\s]+,\s*[A-Z]{2}$" // Regex pattern for city, state format
+  title="Please enter in the format: City, State (e.g., New York, NY)"
+  required
+/>
+
                 </div>
                 <div className="formFields">
                     <label style={{ fontSize: "16px" }}>Location</label>
