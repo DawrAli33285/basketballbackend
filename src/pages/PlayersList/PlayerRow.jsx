@@ -40,7 +40,7 @@ const PlayerRow = ({ player }) => {
 
   return (
     <div className="flex flex-col items-center text-base font-medium text-[#171717] leading-normal pt-4 lg:px-4 border-solid border-[#DBDBDB] border-t min-w-fit w-full lg:w-full">
-      <div className="flex items-center w-full">
+      <div className="lg:flex hidden items-center w-full">
         {/* player name */}
         <div className="flex items-center gap-4 min-w-[280px] lg:w-[30%]">
           <div className="overflow-hidden">
@@ -51,13 +51,13 @@ const PlayerRow = ({ player }) => {
             />
           </div>
           <div>
-  <Link
-    to={`/player-profile/${player?._id}`}
-    className="text-[18px] font-medium text-[#000] w-fit block text-blue-500 hover:underline"
-  >
-    {player?.auth?.name}
-  </Link>
-</div>
+            <Link
+              to={`/player-profile/${player?._id}`}
+              className="text-[18px] font-medium text-[#000] w-fit block text-blue-500 hover:underline"
+            >
+              {player?.auth?.name}
+            </Link>
+          </div>
 
         </div>
 
@@ -81,9 +81,8 @@ const PlayerRow = ({ player }) => {
         {/* open button */}
         <button
           onClick={() => setIsCollapsed(!isCollapsed)}
-          className={`cursor-pointer ease-in-out duration-300 w-4 h-4 ${
-            isCollapsed ? "rotate-180" : ""
-          }`}
+          className={`cursor-pointer ease-in-out duration-300 w-4 h-4 ${isCollapsed ? "rotate-180" : ""
+            }`}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -100,9 +99,63 @@ const PlayerRow = ({ player }) => {
           </svg>
         </button>
       </div>
+      <div className="flex lg:hidden items-center w-full px-[10px]">
+        {/* player name */}
+        <div className="flex items-center gap-[6px] w-[40%]">
+          <div className="overflow-hidden">
+            <img
+              className="w-[30px] h-[30px] rounded-full object-cover"
+              src={player?.picture}
+              alt=""
+            />
+          </div>
+          <div>
+            <Link
+              to={`/player-profile/${player?._id}`}
+              className="text-[14px] font-medium w-fit block text-blue-500 hover:underline"
+            >
+              {player?.auth?.name}
+            </Link>
+          </div>
 
+        </div>
+
+        {/* class */}
+        <div className="w-[20%]">
+          <p>{player?.class}</p>
+        </div>
+        {/* height */}
+        <div className="w-[20%]">
+          <p>{player?.height}</p>
+        </div>
+        {/* position */}
+        <div className="w-[20%] flex gap-[10px] items-center">
+          <p>{player?.position?.toUpperCase()}</p>
+          {/* open button */}
+          <button
+            onClick={() => setIsCollapsed(!isCollapsed)}
+            className={`cursor-pointer ease-in-out duration-300 w-4 h-4 ${isCollapsed ? "rotate-180" : ""
+              }`}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="12"
+              height="7"
+              viewBox="0 0 12 7"
+              fill="none"
+              className="w-full h-full"
+            >
+              <path
+                d="M0.979454 0.813439C1.15697 0.635928 1.43474 0.61979 1.63048 0.765027L1.68656 0.813439L5.99967 5.12633L10.3128 0.813439C10.4903 0.635928 10.7681 0.61979 10.9638 0.765027L11.0199 0.813439C11.1974 0.99095 11.2135 1.26873 11.0683 1.46447L11.0199 1.52055L6.35323 6.18721C6.17572 6.36472 5.89794 6.38086 5.7022 6.23562L5.64612 6.18721L0.979454 1.52055C0.784192 1.32528 0.784192 1.0087 0.979454 0.813439Z"
+                fill="black"
+              />
+            </svg>
+          </button>
+        </div>
+
+      </div>
       {/* collapsed content */}
-      <div className="w-full py-4">
+      <div className={`${isCollapsed ? "block" : "hidden"} w-full py-4`}>
         <Collapse isOpened={isCollapsed}>
           {/* teams wrapper */}
           <div className="flex items-center justify-between w-full">

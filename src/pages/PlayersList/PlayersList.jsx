@@ -7,11 +7,11 @@ import axios from 'axios'
 import { BASE_URL } from "../../baseurl/baseurl";
 const PlayersList = () => {
   const navigate = useNavigate();
-const [playerClass,setClass]=useState("")
-const [playerState,setPlayerState]=useState("")
-const [search,setSearch]=useState("")
-const [position,setPosition]=useState("")
-const [players, setPlayers] = useState([]);
+  const [playerClass, setClass] = useState("")
+  const [playerState, setPlayerState] = useState("")
+  const [search, setSearch] = useState("")
+  const [position, setPosition] = useState("")
+  const [players, setPlayers] = useState([]);
 
   useEffect(() => {
     // fetch("/players.json")
@@ -20,26 +20,26 @@ const [players, setPlayers] = useState([]);
     fetchPlayers();
   }, []);
 
-  const fetchPlayers=async()=>{
-    let response=await axios.get(`${BASE_URL}/getPlayer`)
+  const fetchPlayers = async () => {
+    let response = await axios.get(`${BASE_URL}/getPlayer`)
     setPlayers(response?.data?.players)
-  
+
   }
 
   const classOptions = [
-    {label:'All',value:''},
+    { label: 'All', value: '' },
     { value: "2024", label: "2024" },
     { value: "2023", label: "2023" },
     { value: "2022", label: "2022" },
   ];
   const stateOptions = [
-    {label:'All',value:''},
+    { label: 'All', value: '' },
     { value: "North Carolina", label: "North Carolina" },
     { value: "new Jersy", label: "New Jersy" },
     { value: "Los Angeles", label: "Los Angeles" },
   ];
   const positionOptions = [
-    {label:'All',value:''},
+    { label: 'All', value: '' },
     { value: "PG", label: "PG" },
     { value: "SG", label: "SG" },
     { value: "SF", label: "SF" },
@@ -90,7 +90,7 @@ const [players, setPlayers] = useState([]);
       return classMatches && positionMatches && stateMatches && searchMatches;
     });
   };
-  
+
 
 
   return (
@@ -130,7 +130,7 @@ const [players, setPlayers] = useState([]);
             type="text"
             name="search"
             value={search}
-            onChange={(e)=>{
+            onChange={(e) => {
               setSearch(e.target.value)
             }}
             id="search"
@@ -143,9 +143,9 @@ const [players, setPlayers] = useState([]);
         <div className="flex items-center justify-between pt-3 flex-col lg:flex-row gap-3 lg:gap-0">
           <div className=" w-full lg:w-[230px]">
             <Select
-            onChange={(e)=>{
-              setClass(e.value)
-            }}
+              onChange={(e) => {
+                setClass(e.value)
+              }}
               styles={customSelectStyles}
               options={classOptions}
               placeholder="Class"
@@ -153,9 +153,9 @@ const [players, setPlayers] = useState([]);
           </div>
           <div className=" w-full lg:w-[230px]">
             <Select
-            onChange={(e)=>{
-              setPosition(e.value)
-            }}
+              onChange={(e) => {
+                setPosition(e.value)
+              }}
               styles={customSelectStyles}
               options={positionOptions}
               placeholder="Postion"
@@ -163,9 +163,9 @@ const [players, setPlayers] = useState([]);
           </div>
           <div className=" w-full lg:w-[230px]">
             <Select
-            onChange={(e)=>{
-              setPlayerState(e.value)
-            }}
+              onChange={(e) => {
+                setPlayerState(e.value)
+              }}
               styles={customSelectStyles}
               options={stateOptions}
               placeholder="State"
@@ -209,14 +209,19 @@ const [players, setPlayers] = useState([]);
         {players && (
           <div>
             {/* player heading */}
-            <div className="flex items-center text-base text-[#0E0E0E] leading-6 font-semibold pb-3 ">
+            <div className="lg:flex hidden items-center font-sfPro text-base text-[#0E0E0E] leading-6 font-semibold pb-3 ">
               <p className=" min-w-[280px] lg:w-[30%]">Player Name</p>
               <p className=" min-w-[120px] lg:w-[15%]">Class</p>
               <p className=" min-w-[120px] lg:w-[10%]">Height</p>
               <p className=" min-w-[140px] lg:w-[10%]">Position</p>
               <p className=" min-w-[200px] lg:flex-grow">Star Rating</p>
             </div>
-
+            <div className="flex lg:border-r-0  w-full lg:hidden items-center text-base text-[#0E0E0E] font-sfPro leading-6 font-semibold pb-3 ">
+              <p className="w-[40%]">Name</p>
+              <p className="w-[20%] ">C</p>
+              <p className="w-[20%]">H</p>
+              <p className="w-[20%]">POS</p>
+            </div>
             <div>
               {filteredPlayers()?.map((singlePlayer, index) => (
                 <PlayerRow player={singlePlayer} key={index} />

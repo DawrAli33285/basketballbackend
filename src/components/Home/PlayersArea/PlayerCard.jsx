@@ -29,7 +29,7 @@ const PlayerCard = ({ playerInfo }) => {
           <span>{playerInfo?.height}</span>l<span>{playerInfo?.class}</span>
         </div>
 
-        <div className="w-fit">
+        <div className="w-fit mt-[10px]">
           <Link
             to={`/player-profile/${playerInfo?.auth?._id}`}
             className="py-1 px-5 text-sm  rounded-[30px] border-solid border border-black "

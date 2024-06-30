@@ -11,7 +11,8 @@ export default function AvailablePlayers() {
     const [isPlaying, setIsPlaying] = useState(false);
     const [players, setPlayer] = useState([])
     const [videos, setVideos] = useState([])
-    const [news,setNews]=useState([])
+    const [news, setNews] = useState([])
+    const [videoDurations, setVideoDurations] = useState({});
 
     const handleVideoClick = (src) => {
         setCurrentVideo(src);
@@ -29,6 +30,24 @@ export default function AvailablePlayers() {
     useEffect(() => {
         getAvailabilityPlayer();
     }, [])
+    useEffect(() => {
+        console.log("videos are ", videos)
+    }, [videos])
+    const getVideoDuration = (videoUrl, videoId) => {
+        const video = document.createElement('video');
+        video.src = videoUrl;
+        video.onloadedmetadata = () => {
+            setVideoDurations(prevDurations => ({
+                ...prevDurations,
+                [videoId]: video.duration
+            }));
+        };
+    };
+    useEffect(() => {
+        videos.forEach(video => {
+            getVideoDuration(video.video, video._id);
+        });
+    }, [videos]);
 
     const getAvailabilityPlayer = async () => {
         try {
@@ -61,9 +80,9 @@ export default function AvailablePlayers() {
                     <div>
 
                         <div className=" border-b-[#DBDBDB] border-b-[2px] flex items-center text-base text-[#0E0E0E] leading-6 font-semibold pb-3 ">
-                            <p className=" w-[100%] lg:w-[35%]">Player </p>
-                            <p className=" w-[100%] lg:w-[35%]">School</p>
-                            <p className=" w-[100%] lg:w-[30%]">Position</p>
+                            <p className=" w-[40%] lg:w-[35%]">Player </p>
+                            <p className=" w-[40%] lg:w-[35%]">School</p>
+                            <p className=" w-[20%] lg:w-[30%]">Position</p>
                         </div>
 
                         <div>
@@ -107,13 +126,13 @@ export default function AvailablePlayers() {
                             </svg>
                             <div className="video-details">
                                 <p className="video-title font-semibold text-[14px]">{video?.title}</p>
-                                <p className="video-duration text-gray-500 text-[12px]">{video?.duration}</p>
+                                <p className="video-duration text-gray-500 text-[12px]">{videoDurations[video._id] ? `${Math.floor(videoDurations[video._id] / 60)}:${Math.floor(videoDurations[video._id] % 60).toString().padStart(2, '0')}` : 'Loading...'}</p>
                             </div>
                         </div>
                     ))}
                 </div>
-                <div className='news-draft'>
-                    <h2 className='text-[18px] font-sfPro font-bold'>Draft News</h2>
+                <div className='news-draft mb-[40px]'>
+                    <h2 className='text-[18px] font-sfPro mb-[20px] font-bold'>Draft News</h2>
                     <div className='news-wrapper-draft'>
                         {/* <div className='news-box-draft'>
                             <div className='draft-cont'>
@@ -129,23 +148,23 @@ export default function AvailablePlayers() {
 
                             </span>
                         </div> */}
-                        {news?.map((val,i)=>{
+                        {news?.map((val, i) => {
                             return <Link to={`/news-article/${val?._id}`}>
-                            
-                            <div className='news-box-draft'>
-                            <div className='draft-cont'>
-                                <h2 className='font-[16px] font-sfPro'>
-                                   {val?.title}
-                                </h2>
-                                <p className='text-[14px] font-normal'>
-                                       {val?.description}
-                                </p>
-                            </div>
-                            <span className='draft-image'>
-                                <img src={val?.banner} alt="draft" />
 
-                            </span>
-                        </div>
+                                <div className='news-box-draft'>
+                                    <div className='draft-cont'>
+                                        <h2 className='font-[16px] font-sfPro'>
+                                            {val?.title}
+                                        </h2>
+                                        <p className='text-[14px] font-normal'>
+                                            {val?.description}
+                                        </p>
+                                    </div>
+                                    <span className='draft-image'>
+                                        <img src={val?.banner} alt="draft" />
+
+                                    </span>
+                                </div>
                             </Link>
                         })}
                     </div>

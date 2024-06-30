@@ -63,7 +63,7 @@ const PlayersArea = ({ players, setState }) => {
       <SectionTop title={"Top Player’s"} />
 
       {/* year select */}
-      <div className="flex flex-row items-center space-x-2 w-full max-w-[300px] absolute right-[80px] -top-1">
+      <div className="flex flex-row items-center space-x-2 w-[100px] lg:w-full max-w-[300px] absolute right-[80px] -top-1">
         <Select
           value={selectedOption}
           styles={customSelectStyles}
@@ -75,7 +75,7 @@ const PlayersArea = ({ players, setState }) => {
           className="flex-grow"
         />
         <button
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"
+          className="px-4 lg:block hidden py-2 bg-blue-500 text-white rounded hover:bg-blue-700"
           onClick={() => {
             setClass("");
             setSelectedOption({ value: "", label: "All" });

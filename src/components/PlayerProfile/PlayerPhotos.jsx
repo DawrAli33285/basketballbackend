@@ -14,7 +14,7 @@ const PlayerPhotos = ({ photos }) => {
   return (
     <div>
       {/* wrapper */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-7">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-[40px] lg:gap-7">
         {photos && photos.length > 0 ? (
           photos.map((item, index) => (
             <div className="w-full lg:w-[165px] h-[165px] relative" key={index}>

@@ -17,16 +17,16 @@ export default function AvailablePlayersRow({ player, currentVideo }) {
     };
     return (
         <div className="mt-[18px] border-b-[2px] border-b-[#DBDBDB] flex flex-col gap-[6px] lg:gap-[20px] pb-[20px]">
-            <div className="flex justify-between items-center mobile">
-                <span className="flex gap-[18px] items-center w-[100%] lg:w-[35%]">
-                    <img src={player?.picture} className="w-[40px] h-[40px]  lg:w-[60px] lg:h-[60px] rounded-[100%] object-cover" alt="avatar" />
-                    <p className=" font-sfPro text-[18px]">{player?.auth?.name}</p>
+            <div className="flex justify-between items-center gap-[5px] ">
+                <span className="flex gap-[18px] items-center w-[40%] lg:w-[35%]">
+                    <img src={player?.picture} className="w-[30px] h-[30px]  lg:w-[60px] lg:h-[60px] rounded-[100%] object-cover" alt="avatar" />
+                    <p className=" font-sfPro text-[14px] lg:text-[18px]">{player?.auth?.name}</p>
                 </span>
-                <span className="w-[100%] lg:w-[35%]">
-                    <p>{player?.institute?.universityName}</p>
+                <span className="w-[40%] lg:w-[35%]">
+                    <p className="lg:text-[16px] text-[14px]">{player?.institute?.universityName}</p>
                 </span>
-                <span className="w-[100%] lg:w-[30%] flex gap-[20px] items-center">
-                    <p>{player?.position}</p>
+                <span className="w-[20%] lg:w-[30%] flex gap-[20px] items-center">
+                    <p className="lg:text-[16px] text-[14px]">{player?.position}</p>
                     <button
                         onClick={() => setCollapsed(!Collapsed)}
                         className={`cursor-pointer ease-in-out duration-300 w-4 h-4 ${!Collapsed ? "rotate-180" : ""
@@ -54,22 +54,22 @@ export default function AvailablePlayersRow({ player, currentVideo }) {
                 </span>
             </div>
             <div className={`${Collapsed ? "opacity-0 h-0 hidden" : "opacity-100 h-auto flex"}   flex-col gap-[20px] transition-all duration-500 ease-out`}>
-                <div className="flex items-center justify-between">
+                <div className="flex items-center lg:justify-between gap-[20px] mt-[20px]">
                     <span className="flex flex-col justify-center items-center">
-                        <h2 className="m-0 text-[22px] font-bold font-sfPro flex items-center">
+                        <h2 className="m-0 text-[16px] lg:text-[22px] font-bold font-sfPro flex items-center">
                             {player?.auth?.name}
                          
                         </h2>
-                        <p className="text-[16px] font-sfPro">{player?.institute?.universityName}</p>
+                        <p className="lg:text-[16px] text-[14px] font-sfPro">{player?.institute?.universityName}</p>
                     </span>
                     <span>
-                        <p className="font-sfPro text-[14px]">{player?.class}</p>
+                        <p className="font-sfPro lg:text-[14px] text-[12px]">{player?.class}</p>
                     </span>
                     <span>
-                        <p className="font-sfPro text-[14px]">{player?.height}</p>
+                        <p className="font-sfPro lg:text-[14px] text-[14px]">{player?.height}</p>
                     </span>
                     <span>
-                        <p className="font-sfPro text-[14px]">{player?.position?.toUpperCase()}</p>
+                        <p className="font-sfPro lg:text-[14px] text-[12px]">{player?.position?.toUpperCase()}</p>
                     </span>
                     <span>
                         <p className="font-sfPro text-[14px] flex items-center gap-[6px]">
@@ -88,12 +88,12 @@ export default function AvailablePlayersRow({ player, currentVideo }) {
                         </p>
                     </span>
                 </div>
-                <p className="text-[16px] font-sfPro">
-                    <span className="flex gap-[10px] items-center">
-                        <span className="w-[60%]">
+                <p className="lg:text-[16px] text-[14px] font-sfPro">
+                    <span className="flex gap-[10px] flex-col lg:flex-row lg:items-center">
+                        <span className="lg:w-[60%] w-full">
                             Jan. 20, 2023 Castle didn't have a great Hoophall,  needing 20 shots to score 15 points in a loss to powerhouse IMG Academy,  but still looked like one of the most intriguing long-term prospects in  the class as a 6-6 guard with a 6-9 wingspan, an ideal frame and  outstanding court vision and passing creativity off a live dribble.
                         </span>
-                        <div className="video-container mb-8 relative w-[40%]">
+                        <div className="video-container mb-8 relative lg:w-[40%] w-[full]">
                             <video
                                 
                                 id="videoPlayer2"
