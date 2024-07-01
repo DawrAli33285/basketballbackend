@@ -24,7 +24,11 @@ try{
   let {userData}=response.data
   localStorage.setItem("user",JSON.stringify(userData))
 
-navigate('/')
+if(userData?.user?.role=="user"){
+  navigate('/')
+}else{
+  navigate('/available-players')
+}
 }catch(error){
 
   if(error?.response && error?.response?.data){

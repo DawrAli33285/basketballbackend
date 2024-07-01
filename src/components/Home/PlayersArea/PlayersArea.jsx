@@ -81,7 +81,7 @@ const PlayersArea = ({ players, setState }) => {
             setSelectedOption({ value: "", label: "All" });
           }}
         >
-          Reset
+        Reset
         </button>
       </div>
 

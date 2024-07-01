@@ -58,7 +58,7 @@ const Navbar = () => {
           </div>
           {/* link wrapper */}
           <div className=" text-black leading-6  flex lg:items-center flex-col lg:flex-row gap-3  sm:gap-7">
-            {!localStorage.getItem("user") ||  localStorage.getItem("user") || JSON.parse(localStorage.getItem("user"))?.role=="user"?<>
+            {!localStorage.getItem("user") || JSON.parse(localStorage.getItem("user"))?.role=="user"?<>
               <NavLink onClick={turnOffNav} to={"/"}>
               Home
             </NavLink>
@@ -80,10 +80,14 @@ const Navbar = () => {
             <NavLink onClick={turnOffNav} to={"/available-players"}>
               Availability Players
             </NavLink>
+         
             </>:<>
 
             <NavLink onClick={turnOffNav} to={"/available-players"}>
               Availability Players
+            </NavLink>
+            <NavLink onClick={turnOffNav} to={"/newsFeed"}>
+             NewsFeed
             </NavLink>
             </>}
           </div>

@@ -1,10 +1,12 @@
-import { useState } from "react";
-
-export default function AvailablePlayersRow({ player, currentVideo }) {
+import { useEffect, useState } from "react";
+import { BASE_URL } from "../../baseurl/baseurl";
+import toastr from 'toastr';
+import 'toastr/build/toastr.min.css';
+import axios from "axios";
+export default function AvailablePlayersRow({ currentUser,setCurrentUser,player, currentVideo,setPlayer }) {
     const [Collapsed, setCollapsed] = useState(true)
     const [isPlaying2, setIsPlaying2] = useState(false);
-    console.log("PLAYER")
-    console.log(player)
+
     const togglePlayPausePlayer = () => {
         const videoElement = document.getElementById('videoPlayer2');
         if (videoElement.paused) {
@@ -15,6 +17,65 @@ export default function AvailablePlayersRow({ player, currentVideo }) {
             setIsPlaying2(false);
         }
     };
+
+
+    const addNow=async(id)=>{
+ 
+        try{
+            let token=JSON.parse(localStorage.getItem('user')).token
+            let headers={
+                authorization:`Bearer ${token}`
+            }
+let response=await axios.get(`${BASE_URL}/addRemoveFavourites/${id}`,{headers})
+setPlayer((prev) => {
+    let old;
+    if (prev.length > 0) {
+      old = [...prev];
+    } else {
+      old = prev;
+    }
+  
+    let indexOfPlayer = old?.findIndex(u => u?._id == id);
+    let playerToBeUpdated = old[indexOfPlayer];
+    let favouritePlayerArray;
+  
+    if (playerToBeUpdated?.favouriteBy?.length > 0) {
+      favouritePlayerArray = [...playerToBeUpdated.favouriteBy];
+    } else {
+      favouritePlayerArray = [];
+    }
+  
+    if (favouritePlayerArray.includes(currentUser._id)) {
+      favouritePlayerArray = favouritePlayerArray.filter(u => u !== currentUser._id);
+    } else {
+      favouritePlayerArray = [...favouritePlayerArray, currentUser._id];
+    }
+  
+    playerToBeUpdated = {
+      ...playerToBeUpdated,
+      favouriteBy: favouritePlayerArray
+    };
+  
+    old[indexOfPlayer] = playerToBeUpdated;
+  
+    console.log("NEW PLAYER");
+    console.log(playerToBeUpdated);
+  
+    return old;
+  });
+  
+toastr.success(response.data.message)
+        }catch(error){
+
+            if(error?.response && error?.response?.data){
+                toastr.error(error?.response?.data?.error)
+                }else{
+                toastr.error("Server error please try again")
+                }
+                
+                
+        }
+    }
     return (
         <div className="mt-[18px] border-b-[2px] border-b-[#DBDBDB] flex flex-col gap-[6px] lg:gap-[20px] pb-[20px]">
             <div className="flex justify-between items-center gap-[5px] ">
@@ -47,8 +108,9 @@ export default function AvailablePlayersRow({ player, currentVideo }) {
                         </svg>
                     </button>
                     {JSON.parse(localStorage.getItem("user"))?.role == "coach" ? <>
-                        <div>
-                            <svg width="25" height="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M12 6.00019C10.2006 3.90317 7.19377 3.2551 4.93923 5.17534C2.68468 7.09558 2.36727 10.3061 4.13778 12.5772C5.60984 14.4654 10.0648 18.4479 11.5249 19.7369C11.6882 19.8811 11.7699 19.9532 11.8652 19.9815C11.9483 20.0062 12.0393 20.0062 12.1225 19.9815C12.2178 19.9532 12.2994 19.8811 12.4628 19.7369C13.9229 18.4479 18.3778 14.4654 19.8499 12.5772C21.6204 10.3061 21.3417 7.07538 19.0484 5.17534C16.7551 3.2753 13.7994 3.90317 12 6.00019Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                        <div onClick={()=>addNow(player?._id)}>
+                        {player?.favouriteBy?.find(u=>u==currentUser?._id)?<svg width="25" height="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M12 6.00019C10.2006 3.90317 7.19377 3.2551 4.93923 5.17534C2.68468 7.09558 2.36727 10.3061 4.13778 12.5772C5.60984 14.4654 10.0648 18.4479 11.5249 19.7369C11.6882 19.8811 11.7699 19.9532 11.8652 19.9815C11.9483 20.0062 12.0393 20.0062 12.1225 19.9815C12.2178 19.9532 12.2994 19.8811 12.4628 19.7369C13.9229 18.4479 18.3778 14.4654 19.8499 12.5772C21.6204 10.3061 21.3417 7.07538 19.0484 5.17534C16.7551 3.2753 13.7994 3.90317 12 6.00019Z" stroke="#ff0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>:   <svg width="25" height="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M12 6.00019C10.2006 3.90317 7.19377 3.2551 4.93923 5.17534C2.68468 7.09558 2.36727 10.3061 4.13778 12.5772C5.60984 14.4654 10.0648 18.4479 11.5249 19.7369C11.6882 19.8811 11.7699 19.9532 11.8652 19.9815C11.9483 20.0062 12.0393 20.0062 12.1225 19.9815C12.2178 19.9532 12.2994 19.8811 12.4628 19.7369C13.9229 18.4479 18.3778 14.4654 19.8499 12.5772C21.6204 10.3061 21.3417 7.07538 19.0484 5.17534C16.7551 3.2753 13.7994 3.90317 12 6.00019Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>}
+                         
                         </div>
                     </> : ``}
                 </span>

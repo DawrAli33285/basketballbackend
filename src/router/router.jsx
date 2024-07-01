@@ -19,6 +19,7 @@ import AvailablePlayers from "../pages/AvailablePlayers/AvailablePlayers";
 import axios from "axios";
 import { BASE_URL } from "../baseurl/baseurl";
 import { ProfileProvider } from "../components/context/createProfileContext";
+import Newspage from "../pages/Newspage/Newspage";
 
 
 
@@ -96,12 +97,12 @@ let data={
     link: ''
   }],
   stats: '',
-  academics: {
-    gpa: '',
-    satScore: '',
-    actScore: '',
-    ncaaId: ''
-  },
+    academics: {
+      gpa: '',
+      satScore: '',
+      actScore: '',
+      ncaaId: ''
+    },
   playerClass: '',
   universityName: '',
   picture: '',
@@ -180,6 +181,10 @@ element:<ChangePassword/>
         path: "/available-players",
         element:<AvailablePlayers/>,
       },
+      {
+        path:'/newsFeed',
+        element:<Newspage/>
+      }
     ],
   },
 ]);

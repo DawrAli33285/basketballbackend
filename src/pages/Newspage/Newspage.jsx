@@ -1,13 +1,36 @@
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 
-import SectionTop from "../SectionTop/SectionTop";
-import "./AllNewsArea.css";
+import SectionTop from "../../components/Home/SectionTop/SectionTop";
+import axios from "axios";
 import { useEffect, useState } from "react";
-import NewsWrapper from "./NewsWrapper";
-
-const AllNewsArea = ({news}) => {
+import NewsWrapper from "../../components/Home/AllNewsArea/NewsWrapper";
+import { BASE_URL } from "../../baseurl/baseurl";
+import toastr from 'toastr';
+import 'toastr/build/toastr.min.css';
+const Newspage = () => {
 const [filternews,setFilter]=useState("")
+const [news,setNews]=useState([])
+useEffect(()=>{
+getNews()
+},[])
+const getNews=async()=>{
+try{
+let response=await axios.get(`${BASE_URL}/getNews`)
+let {news}=response.data
+setNews(news)
+}catch(error){
+
+    if(error?.response && error?.response?.data){
+        toastr.error(error?.response?.data?.error)
+        }else{
+        toastr.error("Server error please try again")
+        
+        }
+        
+        
+}
+}
 console.log("NEW NEWS")
 console.log(news)
 
@@ -44,4 +67,4 @@ console.log(news)
   );
 };
 
-export default AllNewsArea;
+export default Newspage

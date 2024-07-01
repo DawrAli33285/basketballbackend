@@ -5,6 +5,8 @@ import AvailablePlayersRow from './AvailablePlayersRow';
 import axios from 'axios'
 import testimg from "../../assets/images/coach-cover.png"
 import { BASE_URL } from '../../baseurl/baseurl';
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import "react-tabs/style/react-tabs.css";
 export default function AvailablePlayers() {
     const navigate = useNavigate()
     const [currentVideo, setCurrentVideo] = useState();
@@ -12,8 +14,15 @@ export default function AvailablePlayers() {
     const [players, setPlayer] = useState([])
     const [videos, setVideos] = useState([])
     const [news, setNews] = useState([])
+    const [currentUser,setCurrentUser]=useState("")
     const [videoDurations, setVideoDurations] = useState({});
-
+    const [selectedTab, setSelectedTab] = useState(0);
+    const [selectedPosition, setSelectedPosition] = useState("");
+    const positions = ["OVR", "PG", "SG", "SF", "PF", "C"];
+    const handleTabClick = (position) => {
+        setSelectedPosition(position);
+      
+      };
     const handleVideoClick = (src) => {
         setCurrentVideo(src);
     };
@@ -28,6 +37,7 @@ export default function AvailablePlayers() {
         }
     };
     useEffect(() => {
+        setCurrentUser(JSON.parse(localStorage.getItem('user')))
         getAvailabilityPlayer();
     }, [])
     useEffect(() => {
@@ -72,8 +82,37 @@ export default function AvailablePlayers() {
         <div className="mainContainer">
             <div className='flex flex-col gap-[10px]'>
                 <div className='flex justify-between'>
-                    <div className='w-[24px] h-[24px]' onClick={() => navigate(-1)}><svg xmlns="http://www.w3.org/2000/svg" width="17" height="15" viewBox="0 0 17 15" fill="none" class="w-full h-full"><path d="M1.25 7.27441L16.25 7.27441" stroke="#130F26" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M7.2998 13.299L1.2498 7.275L7.2998 1.25" stroke="#130F26" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+                <div className="flex justify-center items-center">
 
+                    <div className='w-[24px] h-[24px]' onClick={() => navigate(-1)}><svg xmlns="http://www.w3.org/2000/svg" width="17" height="15" viewBox="0 0 17 15" fill="none" class="w-full h-full"><path d="M1.25 7.27441L16.25 7.27441" stroke="#130F26" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M7.2998 13.299L1.2498 7.275L7.2998 1.25" stroke="#130F26" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    
+                    
+                    </div>
+                    <Tabs selectedIndex={positions.indexOf(selectedPosition)} onSelect={index => handleTabClick(positions[index])}>
+          <TabList className="flex gap-4">
+            <Tab className={`text-center py-2 px-4 cursor-pointer ${selectedPosition === 'OVR' ? 'text-red-600 border-b-2 border-red-600' : 'text-black'}`} onClick={() => handleTabClick('OVR')}>
+              OVR
+            </Tab>
+            <Tab className={`text-center py-2 px-4 cursor-pointer ${selectedPosition === 'PG' ? 'text-red-600 border-b-2 border-red-600' : 'text-black'}`} onClick={() => handleTabClick('PG')}>
+              PG
+            </Tab>
+            <Tab className={`text-center py-2 px-4 cursor-pointer ${selectedPosition === 'SG' ? 'text-red-600 border-b-2 border-red-600' : 'text-black'}`} onClick={() => handleTabClick('SG')}>
+              SG
+            </Tab>
+            <Tab className={`text-center py-2 px-4 cursor-pointer ${selectedPosition === 'SF' ? 'text-red-600 border-b-2 border-red-600' : 'text-black'}`} onClick={() => handleTabClick('SF')}>
+              SF
+            </Tab>
+            <Tab className={`text-center py-2 px-4 cursor-pointer ${selectedPosition === 'PF' ? 'text-red-600 border-b-2 border-red-600' : 'text-black'}`} onClick={() => handleTabClick('PF')}>
+              PF
+            </Tab>
+            <Tab className={`text-center py-2 px-4 cursor-pointer ${selectedPosition === 'C' ? 'text-red-600 border-b-2 border-red-600' : 'text-black'}`} onClick={() => handleTabClick('C')}>
+              C
+            </Tab>
+          </TabList>
+        </Tabs>
+                  </div>
+     
+    
                 </div>
                 <div className=" pt-12 lg:pt-[60px] mb-8 lg:mb-[115px]  w-full  ">
 
@@ -86,8 +125,8 @@ export default function AvailablePlayers() {
                         </div>
 
                         <div>
-                            {players?.map((player, index) => {
-                                return <AvailablePlayersRow key={index.toString()} player={player} currentVideo={currentVideo} />
+                            {players?.filter(u=>u?.position?.toLowerCase()?.startsWith(selectedPosition.toLowerCase()))?.map((player, index) => {
+                                return <AvailablePlayersRow currentUser={currentUser} setCurrentUser={setCurrentUser} setPlayer={setPlayer} key={index.toString()} player={player} currentVideo={currentVideo} />
                             })}
                         </div>
                     </div>

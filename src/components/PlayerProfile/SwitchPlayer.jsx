@@ -155,17 +155,17 @@ const SwitchPlayer = ({ players }) => {
                 </div>
 
                 {/* Details */}
-                <div className="space-y-2.5">
+                <div className="">
        <Link to={`/player-profile/${player?.auth?._id}`}>
        <p className="text-[18px] font-medium text-blue-500 leading-normal cursor-pointer hover:underline">
   {player?.auth?.name}
 </p>
 
        </Link>
-                  <p className="text-base font-normal text-[#000] leading-6">
+                  <p  className="text-[14px] font-normal text-[#000] leading-6">
                     {player?.location}
                   </p>
-                  <div className="flex items-center gap-[2px] text-base font-medium text-[#000] leading-normal">
+                  <div className="flex items-center gap-[2px] text-[14px] font-medium text-[#000] leading-normal">
                     <span>{player?.position?.toUpperCase()}</span>l
                     <span> {player?.height} </span>l
                     <span> {player?.class} </span>
