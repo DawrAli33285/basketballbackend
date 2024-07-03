@@ -155,7 +155,7 @@ const SwitchPlayer = ({ players }) => {
                 </div>
 
                 {/* Details */}
-                <div className="flex flex-col gap-[3px]">
+                <div className="flex flex-col gap-[1px]">
        <Link to={`/player-profile/${player?.auth?._id}`}>
        <p className="text-[18px] font-medium text-blue-500 leading-normal cursor-pointer hover:underline">
   {player?.auth?.name}
