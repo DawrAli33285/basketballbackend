@@ -162,7 +162,7 @@ const SwitchPlayer = ({ players }) => {
 </p>
 
        </Link>
-                  <p  className="text-[14px] font-normal text-[#000] leading-6">
+                  <p  className="text-[14px] font-medium text-[#000] leading-6">
                     {player?.location}
                   </p>
                   <div className="flex items-center gap-[2px] text-[14pxz] font-medium text-[#000] leading-normal">
