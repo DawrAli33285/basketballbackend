@@ -66,7 +66,7 @@ import Newspage from "../pages/Newspage/Newspage";
 //   logo: ''
 // };
 
-let data={
+let data = {
   about: '',
   phoneNumber: '',
   jerseyNumber: '',
@@ -97,12 +97,12 @@ let data={
     link: ''
   }],
   stats: '',
-    academics: {
-      gpa: '',
-      satScore: '',
-      actScore: '',
-      ncaaId: ''
-    },
+  academics: {
+    gpa: '',
+    satScore: '',
+    actScore: '',
+    ncaaId: ''
+  },
   playerClass: '',
   universityName: '',
   picture: '',
@@ -138,12 +138,12 @@ const router = createBrowserRouter([
         element: <PlayersList />,
       },
       {
-path:'/forget-password',
-element:<ForgetPassword/>
+        path: '/forget-password',
+        element: <ForgetPassword />
       },
       {
-path:'/change-password/:token',
-element:<ChangePassword/>
+        path: '/change-password/:token',
+        element: <ChangePassword />
       },
       {
         path: "/login",
@@ -175,15 +175,15 @@ element:<ChangePassword/>
       },
       {
         path: "/create-profile",
-        element: <CreateProfile data={data}/>,
+        element: <CreateProfile data={data} />,
       },
       {
         path: "/available-players",
-        element:<AvailablePlayers/>,
+        element: <AvailablePlayers />,
       },
       {
-        path:'/newsFeed',
-        element:<Newspage/>
+        path: '/newsFeed',
+        element: <Newspage />
       }
     ],
   },

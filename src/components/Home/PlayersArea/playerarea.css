@@ -1,0 +1,7 @@
+.player-box-home > :nth-child(even) {
+    background-color: #EAF0F6;
+  }
+  
+  .player-box-home > :nth-child(odd) {
+    background-color: white;
+  }

@@ -12,7 +12,7 @@ const ClassPlayerArea = ({ classPlayers }) => {
       <SectionTop title={"Class of 2024 Player’s"} />
 
       {/* wrapper */}
-      <div className="grid grid-cols-2 lg:grid-cols-6 gap-7 pt-6 pb-10">
+      <div className="grid grid-cols-2 lg:grid-cols-6 gap-7 pt-6 pb-10 player-box-home">
         {classPlayers &&
           classPlayers?.map((player, index) => (
             <div key={index} className="lg:w-[15rem] w-full flex flex-col items-center gap-5">

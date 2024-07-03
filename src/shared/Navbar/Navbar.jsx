@@ -49,17 +49,16 @@ const Navbar = () => {
         {/* menu area */}
         <div
           ref={navBody}
-          className={`flex fixed top-0 flex-grow lg:justify-between lg:relative  lg:items-center lg:flex-row flex-col gap-8 lg:gap-[55px] z-20 bg-[#fff] lg:bg-none lg:h-auto lg:w-fit w-[80%] h-screen pt-[30px] px-3 lg:pt-0 lg:px-0 shadow-2xl lg:shadow-none duration-300 ease-in-out  ${
-            navOpen ? "left-0" : "-left-full lg:left-auto"
-          }`}
+          className={`flex fixed top-0 flex-grow lg:justify-between lg:relative  lg:items-center lg:flex-row flex-col gap-8 lg:gap-[55px] z-20 bg-[#fff] lg:bg-none lg:h-auto lg:w-fit w-[80%] h-screen pt-[30px] px-3 lg:pt-0 lg:px-0 shadow-2xl lg:shadow-none duration-300 ease-in-out  ${navOpen ? "left-0" : "-left-full lg:left-auto"
+            }`}
         >
           <div className=" w-[80px] h-[60px] lg:hidden">
             <img className="w-full h-full" src={logo} alt="" />
           </div>
           {/* link wrapper */}
           <div className=" text-black leading-6  flex lg:items-center flex-col lg:flex-row gap-3  sm:gap-7">
-          
-              <NavLink onClick={turnOffNav} to={"/"}>
+
+            <NavLink onClick={turnOffNav} to={"/"}>
               Home
             </NavLink>
             <NavLink onClick={turnOffNav} to={"/player-list"}>
@@ -74,22 +73,20 @@ const Navbar = () => {
             <NavLink onClick={turnOffNav} to={"/contact"}>
               Contact us
             </NavLink>
-         {localStorage.getItem('user')?<NavLink onClick={turnOffNav} to={"/create-profile"}>
-             Create Profile
-            </NavLink>:''}
+            {localStorage.getItem('user') ? <NavLink onClick={turnOffNav} to={"/create-profile"}>
+              Create Profile
+            </NavLink> : ''}
             <NavLink onClick={turnOffNav} to={"/available-players"}>
-              Availability Players
+              Available Players
             </NavLink>
-         
-            
 
-            <NavLink onClick={turnOffNav} to={"/available-players"}>
-              Availability Players
-            </NavLink>
-            <NavLink onClick={turnOffNav} to={"/newsFeed"}>
-             NewsFeed
-            </NavLink>
+
+
             
+            <NavLink onClick={turnOffNav} to={"/newsFeed"}>
+              NewsFeed
+            </NavLink>
+
           </div>
 
           {/* button wrapper */}
@@ -99,7 +96,7 @@ const Navbar = () => {
               Download App
             </button>
             {/* login button */}
-      {localStorage?.getItem('user')?  <button
+            {localStorage?.getItem('user') ? <button
               onClick={() => {
                 localStorage.removeItem('user')
                 window.location.reload(true)
@@ -107,7 +104,7 @@ const Navbar = () => {
               className="text-sm leading-6 text-primaryColor py-2 px-6 bg-[#fff] rounded-[30px] border border-solid border-primaryColor w-fit"
             >
               Log out
-            </button>:      <button
+            </button> : <button
               onClick={() => navigate("/login")}
               className="text-sm leading-6 text-primaryColor py-2 px-6 bg-[#fff] rounded-[30px] border border-solid border-primaryColor w-fit"
             >

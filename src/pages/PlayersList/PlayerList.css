@@ -40,3 +40,14 @@
     padding-right: 0px;
   }
 }
+.filtered-list-player{
+  display: flex;
+  flex-direction: column;
+}
+.filtered-list-player > :nth-child(even) {
+  background-color: #EAF0F6;
+}
+
+.filtered-list-player > :nth-child(odd) {
+  background-color: white;
+}

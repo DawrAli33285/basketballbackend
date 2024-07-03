@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import SectionTop from "../SectionTop/SectionTop";
 import PlayerCard from "./PlayerCard";
 import Select from "react-select";
-
+import "./playerarea.css"
 const PlayersArea = ({ players, setState }) => {
   const [playerClass, setClass] = useState("");
   const [selectedOption, setSelectedOption] = useState({ value: "", label: "All" });
@@ -86,7 +86,7 @@ const PlayersArea = ({ players, setState }) => {
       </div>
 
       {/* players */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-[20px] lg:gap-[40px] mt-[20px]">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-[20px] lg:gap-[40px] mt-[20px] player-box-home">
         {players &&
           players
             .filter((u) => u?.class?.startsWith(playerClass?.toString()))

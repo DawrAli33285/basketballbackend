@@ -18,9 +18,9 @@ export default function AvailablePlayers() {
     const [videoDurations, setVideoDurations] = useState({});
     const [selectedTab, setSelectedTab] = useState(0);
     const [selectedPosition, setSelectedPosition] = useState("");
-    const positions = ["OVR", "PG", "SG", "SF", "PF", "C"];
+    const positions = ["ALL", "PG", "SG", "SF", "PF", "C"];
     const handleTabClick = (position) => {
-        setSelectedPosition(position);
+        setSelectedPosition(position === 'ALL' ? '' : position);
 
     };
     const handleVideoClick = (src) => {
@@ -90,8 +90,8 @@ export default function AvailablePlayers() {
                         </div>
                         <Tabs selectedIndex={positions.indexOf(selectedPosition)} onSelect={index => handleTabClick(positions[index])}>
                             <TabList className="flex gap-4 pos-tabs">
-                                <Tab className={`text-center py-2 px-4 cursor-pointer ${selectedPosition === 'OVR' ? 'text-red-600 border-b-2 border-red-600' : 'text-black'}`} onClick={() => handleTabClick('OVR')}>
-                                    OVR
+                                <Tab className={`text-center py-2 px-4 cursor-pointer ${selectedPosition === '' ? 'text-red-600 border-b-2 border-red-600' : 'text-black'}`} onClick={() => handleTabClick('All')}>
+                                    ALL
                                 </Tab>
                                 <Tab className={`text-center py-2 px-4 cursor-pointer ${selectedPosition === 'PG' ? 'text-red-600 border-b-2 border-red-600' : 'text-black'}`} onClick={() => handleTabClick('PG')}>
                                     PG
@@ -124,18 +124,18 @@ export default function AvailablePlayers() {
                             <p className=" w-[20%] lg:w-[30%]">Position</p>
                         </div>
 
-                        <div>
-                            {players?.filter(u => u?.position?.toLowerCase()?.startsWith(selectedPosition.toLowerCase()))?.map((player, index) => {
-                                return <AvailablePlayersRow currentUser={currentUser} setCurrentUser={setCurrentUser} setPlayer={setPlayer} key={index.toString()} player={player} currentVideo={currentVideo} />
-                            })}
+                        <div className='player-box'>
+                            {players?.filter(player => selectedPosition === '' || player?.position?.toLowerCase().startsWith(selectedPosition.toLowerCase())).map((player, index) => (
+                                <AvailablePlayersRow key={index.toString()} player={player} currentVideo={currentVideo} />
+                            ))}
                         </div>
                     </div>
 
                 </div>
             </div>
             <div>
-                <h1 className='text-[18px] mb-[20px]'>Draft Videos</h1>
-                <div className="video-container mb-8 relative">
+                <h1 className='text-[18px] mb-[25px]'>Draft Videos</h1>
+                <div className="video-container mb-[19px] relative">
                     <video
                         controls
                         id="videoPlayer"
@@ -159,7 +159,7 @@ export default function AvailablePlayers() {
                 </div>
                 <div className="video-list">
                     {videos?.map((video, index) => (
-                        <div key={index} className="video-item flex items-center gap-4 mb-4 cursor-pointer" onClick={() => handleVideoClick(video?.video)}>
+                        <div key={index} className="video-item flex items-center gap-[17px] mb-4 cursor-pointer" onClick={() => handleVideoClick(video?.video)}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" viewBox="0 0 18 18" fill="none">
                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M0.666992 9.00515C0.666992 4.40554 4.40734 0.666992 9.00033 0.666992C13.5933 0.666992 17.3337 4.40554 17.3337 9.00515C17.3337 13.5951 13.5933 17.3337 9.00033 17.3337C4.40734 17.3337 0.666992 13.5951 0.666992 9.00515ZM12.057 9.84853C12.1454 9.76009 12.258 9.62342 12.2822 9.59126C12.4109 9.42242 12.4752 9.21338 12.4752 9.00515C12.4752 8.77119 12.4028 8.55411 12.2661 8.37724C12.2549 8.36603 12.2329 8.34215 12.2043 8.31102C12.1508 8.25278 12.074 8.16919 12.0006 8.09584C11.3411 7.38833 9.61969 6.23059 8.71879 5.87683C8.58205 5.82136 8.23617 5.69996 8.05116 5.69192C7.8742 5.69192 7.70528 5.73212 7.54441 5.81251C7.34331 5.92507 7.18244 6.10195 7.09396 6.31099C7.03765 6.4557 6.94917 6.88986 6.94917 6.8979C6.86069 7.37225 6.81242 8.14408 6.81242 8.99631C6.81242 9.80914 6.86069 10.548 6.93308 11.0304C6.93507 11.0324 6.94199 11.0669 6.95274 11.1205C6.98542 11.2834 7.0535 11.6229 7.12613 11.762C7.30309 12.0997 7.64897 12.3087 8.01899 12.3087H8.05116C8.29248 12.3007 8.79923 12.0917 8.79923 12.0836C9.65187 11.7299 11.333 10.6284 12.0087 9.89677L12.057 9.84853Z" fill="#130F26" />
                             </svg>
@@ -170,8 +170,8 @@ export default function AvailablePlayers() {
                         </div>
                     ))}
                 </div>
-                <div className='news-draft mb-[40px]'>
-                    <h2 className='text-[18px] font-sfPro mb-[20px] font-bold'>Draft News</h2>
+                <div className='news-draft mt-[14px] mb-[40px]'>
+                    <h2 className='text-[18px] font-sfPro mb-[10px] font-[500]'>Draft News</h2>
                     <div className='news-wrapper-draft'>
                         {/* <div className='news-box-draft'>
                             <div className='draft-cont'>

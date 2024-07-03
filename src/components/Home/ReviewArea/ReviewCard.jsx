@@ -41,10 +41,10 @@ const ReviewCard = ({ review }) => {
         </div>
       </div>
       {/* description */}
-      <div className="text-[#333]  leading-6 text-base">
+      <div className="text-[#333]  leading-6 text-base ml-[30px]">
         {review?.
-testimonial
-}
+          testimonial
+        }
       </div>
     </div>
   );

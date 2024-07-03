@@ -22,6 +22,8 @@ const PlayersList = () => {
 
   const fetchPlayers = async () => {
     let response = await axios.get(`${BASE_URL}/getPlayer`)
+    console.log("FETCH")
+    console.log(response)
     setPlayers(response?.data?.players)
 
   }
@@ -96,7 +98,7 @@ const PlayersList = () => {
   return (
     <div>
       {/* top part */}
-      <div className="relative">
+      <div className="relative lg:w-[90%] lg:mx-auto">
         {/* search bar */}
         <div className="w-full relative ">
           {/* icon */}
@@ -140,7 +142,7 @@ const PlayersList = () => {
         </div>
 
         {/* select options */}
-        <div className="flex items-center justify-between pt-3 flex-col lg:flex-row gap-3 lg:gap-0">
+        <div className="grid grid-cols-3  items-center justify-between pt-3 lg:flex-col lg:flex-row gap-3 lg:gap-0">
           <div className=" w-full lg:w-[230px]">
             <Select
               onChange={(e) => {
@@ -209,20 +211,20 @@ const PlayersList = () => {
         {players && (
           <div>
             {/* player heading */}
-            <div className="lg:flex hidden items-center font-sfPro text-base text-[#0E0E0E] leading-6 font-semibold pb-3 ">
-              <p className=" min-w-[280px] lg:w-[30%]">Player Name</p>
+            <div className=" bg-[#E9E9E9] py-[10px] lg:flex hidden items-center font-sfPro text-base text-[#0E0E0E] leading-6 font-semibold  ">
+              <p className=" min-w-[280px] pl-[10px] lg:w-[30%]">Player Name</p>
               <p className=" min-w-[120px] lg:w-[15%]">Class</p>
               <p className=" min-w-[120px] lg:w-[10%]">Height</p>
               <p className=" min-w-[140px] lg:w-[10%]">Position</p>
               <p className=" min-w-[200px] lg:flex-grow">Star Rating</p>
             </div>
-            <div className="flex lg:border-r-0  w-full lg:hidden items-center text-base text-[#0E0E0E] font-sfPro leading-6 font-semibold pb-3 ">
-              <p className="w-[40%]">Name</p>
-              <p className="w-[20%] ">C</p>
-              <p className="w-[20%]">H</p>
-              <p className="w-[20%]">POS</p>
+            <div className="bg-[#E9E9E9] py-[10px] flex lg:border-r-0  w-full lg:hidden items-center text-base text-[#0E0E0E] font-sfPro leading-6 font-semibold  ">
+              <p className="w-[40%] pl-[10px]">Player Name</p>
+              <p className="w-[40%] ">Height/Weight</p>
+              <p className="w-[20%]">Class</p>
+           
             </div>
-            <div>
+            <div className="filtered-list-player">
               {filteredPlayers()?.map((singlePlayer, index) => (
                 <PlayerRow player={singlePlayer} key={index} />
               ))}

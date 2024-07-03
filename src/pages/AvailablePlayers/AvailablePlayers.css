@@ -36,7 +36,7 @@
 .news-wrapper-draft {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 36px;
   width: 100%;
 }
 
@@ -48,7 +48,7 @@
 }
 
 .draft-image {
-  width: 100%;
+  width: 87px;
   height: 100px;
 
   border-radius: 12px;
@@ -56,6 +56,7 @@
 
 .draft-image img {
   width: 100%;
+  border-radius: 12px;
   object-fit: cover;
   height: 100%;
 }
@@ -94,4 +95,16 @@
   border-left: 0px;
   border-right: 0px;
   border-top: 0px;
+}
+.player-box {
+  display: flex;
+  flex-direction: column;
+}
+
+.player-box > :nth-child(even) {
+  background-color: #EAF0F6;
+}
+
+.player-box > :nth-child(odd) {
+  background-color: white;
 }

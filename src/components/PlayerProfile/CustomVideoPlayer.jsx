@@ -78,7 +78,7 @@ const CustomVideoPlayer = ({ src, alt }) => {
   };
 
   return (
-    <div className="relative w-full h-[250px] lg:h-[165px] rounded-lg overflow-hidden">
+    <div className="relative w-full h-[250px] lg:h-[220px] rounded-lg overflow-hidden">
       <video
         ref={videoRef}
         className="w-full h-full object-cover"
