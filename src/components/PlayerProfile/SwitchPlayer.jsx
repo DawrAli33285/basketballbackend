@@ -165,7 +165,7 @@ const SwitchPlayer = ({ players }) => {
                   <p  className="text-[16px] font-normal text-[#000] leading-6">
                     {player?.location}
                   </p>
-                  <div className="flex items-center gap-[2px] text-[15pxz] font-normal text-[#000] leading-normal">
+                  <div className="flex items-center gap-[2px] text-[17px] font-normal text-[#000] leading-normal">
                     <span className="text-[14px]">{player?.position?.toUpperCase()}</span>l
                     <span className="text-[14px]"> {player?.height} </span>l
                     <span className="text-[14px]"> {player?.class} </span>
