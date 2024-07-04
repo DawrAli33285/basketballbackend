@@ -42,9 +42,9 @@ const Navbar = () => {
     <header className="relative">
       <div className="flex items-center justify-between lg:justify-start gap-[30px]  py-5 lg:py-8  lg:pb-[50px]">
         {/* logo */}
-        <div className=" w-[80px] h-[60px] lg:w-[100px] lg:h-[70px]">
+        <a href="/" className=" w-[80px] h-[60px] lg:w-[100px] lg:h-[70px]">
           <img className="w-full h-full" src={logo} alt="" />
-        </div>
+        </a>
 
         {/* menu area */}
         <div
