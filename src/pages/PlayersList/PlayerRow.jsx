@@ -175,7 +175,7 @@ const PlayerRow = ({ player }) => {
                   className="text-[16px] flex-col font-medium w-fit block text-blue-500 hover:underline"
                 >
                   {player?.auth?.name}
-                  <p className="text-[12px] text-[#818181]">{player?.height} | {player?.position} | {player?.weight} - {player?.class} - {player?.location}</p>
+                  <p className="text-[12px] text-[#818181] font-[400]">{player?.height} | {player?.position} | {player?.weight} - {player?.class} - {player?.location}</p>
                 </Link>
               </div>
             </div>
