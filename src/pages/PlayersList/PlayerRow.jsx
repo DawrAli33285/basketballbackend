@@ -127,7 +127,7 @@ const PlayerRow = ({ player }) => {
 
         {/* class */}
         <div className="w-[40%]">
-          <p className="text-[#818181] text-[16px]">{player?.height} | {player?.position?.toUpperCase()} | {player?.weight}</p>
+          <p className="text-[#818181] text-[16px] font-[400]">{player?.height} | {player?.position?.toUpperCase()} | {player?.weight}</p>
 
         </div>
 
