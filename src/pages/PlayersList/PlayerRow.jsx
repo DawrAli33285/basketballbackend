@@ -119,6 +119,7 @@ const PlayerRow = ({ player }) => {
             >
               {player?.auth?.name}
               <p className="text-[12px] text-[#818181]">{player?.location}</p>
+              <p className="text-[12px] text-[#818181]">{player?.institute?.universityName?.toUpperCase()}</p>
             </Link>
           </div>
 

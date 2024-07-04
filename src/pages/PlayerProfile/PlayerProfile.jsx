@@ -539,7 +539,7 @@ const PlayerProfile = () => {
                   <td>{item.stats}</td>
                   <td>{item.gp}</td>
                   <td>{item.fg}</td>
-                  <td>{item.threep}</td>
+                  <td>{item.threep==null?'0':item.threep}</td>
                   <td>{item.ft}</td>
                   <td>{item.reb}</td>
                   <td>{item.ast}</td>
