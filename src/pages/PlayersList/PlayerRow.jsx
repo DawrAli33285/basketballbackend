@@ -2,6 +2,10 @@ import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { Collapse } from "react-collapse";
 import { Link } from "react-router-dom";
+import { BASE_URL } from "../../baseurl/baseurl";
+import toastr from 'toastr';
+import 'toastr/build/toastr.min.css';
+import axios from "axios";
 
 const SingleTeam = ({ teamIcon, teamName }) => {
   return (
@@ -30,6 +34,36 @@ const Star = ({ filled }) => (
     />
   </svg>
 );
+const followNow=async(id)=>{
+ 
+let currentUser=JSON.parse(localStorage.getItem('user'))
+if(currentUser.length==0 || !currentUser){
+  toastr.error("Please login to follow")
+  return false;
+}
+let headers={
+  headers:{
+    authorization:`Bearer ${currentUser?.token}`
+  }
+}
+
+try{
+  let response=await axios.get(`${BASE_URL}/addRemoveFollow/${id}`,headers)
+toastr.success(response?.data?.message)
+setTimeout(()=>{
+  window.location.reload(true)
+},500)
+}catch(error){
+  console.log(error.message)
+if(error?.response && error?.response.data){
+  toastr.error(error?.response?.data?.error)
+}else{
+  toastr.error("Server error please try again")
+}
+}
+}
+
+
 
 const PlayerRow = ({ player }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -122,7 +156,6 @@ const PlayerRow = ({ player }) => {
               <p className="text-[12px] text-[#818181]">{player?.institute?.universityName?.toUpperCase()}</p>
             </Link>
           </div>
-
         </div>
 
         {/* class */}
@@ -180,7 +213,7 @@ const PlayerRow = ({ player }) => {
               </div>
             </div>
           </div>
-          <div className="flex my-[18px] gap-[25px] w-full ml-[45px]">
+          <div className="flex relative my-[18px] gap-[25px] w-full ml-[45px]">
             <a href={player?.profile.socialLinks[0]?.link}><svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect y="0.957031" width="34.15" height="34" rx="17" fill="white" />
               <path d="M14.2307 28.957L14.1992 18.957H10.1992V14.957H14.1992V12.457C14.1992 8.74563 16.4975 6.95703 19.8084 6.95703C21.3943 6.95703 22.7573 7.0751 23.1545 7.12788V11.0065L20.8583 11.0076C19.0577 11.0076 18.709 11.8632 18.709 13.1187V14.957H23.9492L21.9492 18.957H18.709V28.957H14.2307Z" fill="#11192E" />
@@ -200,9 +233,11 @@ const PlayerRow = ({ player }) => {
               </svg>
 
             </a>
+            <span onClick={()=>followNow(player?.auth?._id)} className="block lg:hidden absolute right-[20%] -top-[20%] text-[#4C8FE1] text-[12px] py-[5px] px-[12px] rounded-[30px] border-[1px] border-[#4C8FE1] hover:cursor-pointer">{player?.followedBy?.includes(JSON.parse(localStorage.getItem('user'))?._id)?'Unfollow':'Follow'}</span>
+
           </div>
           <div className="w-full lg:ml-[60px]">
-              <video src={player?.videos[0]?.video} className="w-full lg:w-[480px] rounded-[8px]" controls />
+            <video src={player?.videos[0]?.video} className="w-full lg:w-[480px] rounded-[8px]" controls />
           </div>
         </Collapse>
       </div>

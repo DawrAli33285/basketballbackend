@@ -88,7 +88,7 @@ export default function AvailablePlayers() {
 
 
                         </div>
-                        <Tabs selectedIndex={positions.indexOf(selectedPosition)} onSelect={index => handleTabClick(positions[index])}>
+                        <Tabs selectedIndex={positions.indexOf(selectedPosition)} onSelect={index => handleTabClick(positions[index])} className="w-full">
                             <TabList className="flex gap-4 pos-tabs">
                                 <Tab className={`text-center py-2 px-4 cursor-pointer ${selectedPosition === '' ? 'text-red-600 border-b-2 border-red-600' : 'text-black'}`} onClick={() => handleTabClick('All')}>
                                     ALL
@@ -116,14 +116,22 @@ export default function AvailablePlayers() {
                 </div>
                 <div className=" pt-12 lg:pt-[60px] mb-8 lg:mb-[115px]  w-full  ">
 
-                    <div>
+                    <div className='w-full'>
 
-                        <div className=" border-b-[#DBDBDB] border-b-[2px] flex items-center text-base text-[#0E0E0E] leading-6 font-semibold pb-3 ">
+                        <div className="w-full border-b-[#DBDBDB] border-b-[2px] flex lg:hidden items-center text-base text-[#0E0E0E] leading-6 font-semibold pb-3 ">
                             <p className=" w-[40%] lg:w-[35%]">Player </p>
-                            <p className=" w-[40%] lg:w-[35%]">School</p>
+                            <p className=" w-[20%] lg:w-[35%]">Class</p>
+                            <p className=" w-[20%] lg:w-[30%]">Height</p>
                             <p className=" w-[20%] lg:w-[30%]">Position</p>
                         </div>
-
+                        <div className="w-full border-b-[#DBDBDB] border-b-[2px] hidden lg:flex items-center text-base text-[#0E0E0E] leading-6 font-semibold pb-3 ">
+                            <p className=" w-[40%] lg:w-[35%]">Player </p>
+                            <p className=" w-[20%] lg:w-[35%]">Class</p>
+                            <p className=" w-[20%] lg:w-[30%]">Height</p>
+                            <p className=" w-[20%] lg:w-[30%]">Position</p>
+                            <p className=" w-[20%] lg:w-[30%]">Location</p>
+                            <p className=" w-[20%] lg:w-[30%]">College</p>
+                        </div>
                         <div className='player-box'>
                             {players?.filter(player => selectedPosition === '' || player?.position?.toLowerCase().startsWith(selectedPosition.toLowerCase())).map((player, index) => (
                                 <AvailablePlayersRow key={index.toString()} player={player} currentVideo={currentVideo} />
