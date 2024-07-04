@@ -686,7 +686,7 @@ const PlayerProfile = () => {
                               ?.map((linkItem, index) => (
                                 <div key={`socialLink_${index}`} className="flex items-center space-x-2">
                                   {linkItem.social_type === 'instagram' && (
-                                    <a href={linkItem?.link}>
+                                    <a target="_blank" rel="noopener noreferrer" href={linkItem?.link}>
                                       <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 24 24"
@@ -717,7 +717,7 @@ const PlayerProfile = () => {
                                     </a>
                                   )}
                                   {linkItem.social_type === 'facebook' && (
-                                    <a href={linkItem?.link}>
+                                    <a target="_blank" rel="noopener noreferrer" href={linkItem?.link}>
                                       <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 24 24"
@@ -736,7 +736,7 @@ const PlayerProfile = () => {
                                     </a>
                                   )}
                                   {linkItem.social_type === 'twitter' && (
-                                    <a href={linkItem?.link}>
+                                    <a target="_blank" rel="noopener noreferrer" href={linkItem?.link}>
                                       <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 24 24"
@@ -754,7 +754,7 @@ const PlayerProfile = () => {
                                     </a>
                                   )}
                                   {linkItem.social_type === 'tiktok' && (
-                                    <a href={linkItem?.link}>
+                                    <a target="_blank" rel="noopener noreferrer" href={linkItem?.link}>
                                       <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 192 192"
@@ -778,14 +778,7 @@ const PlayerProfile = () => {
                                       </svg>
                                     </a>
                                   )}
-                                  <a
-                                    href={linkItem.link}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-gray-700 hover:text-gray-900"
-                                  >
-                                    {linkItem.link}
-                                  </a>
+                           
                                 </div>
                               ))}
                           </div>
