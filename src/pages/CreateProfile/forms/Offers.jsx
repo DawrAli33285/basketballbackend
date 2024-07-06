@@ -194,14 +194,7 @@ const OffersForm = ({ data }) => {
               value={offer.university || ""}
             />
           </div>
-          <div className="formFields">
-            <label style={{ fontSize: "16px" }}>University Logo</label>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => handleFileChange(index, e)}
-            />
-          </div>
+    
         </div>
       ))}
       <button type="button" className="addMoreButton" onClick={addOfferField}>
