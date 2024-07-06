@@ -482,6 +482,16 @@ for(let key in contactDetail){
     });
 
     formdata.append('weight', state.personalInformation.weight)
+    
+    console.log("OFFERS")
+    console.log(state.offers)
+
+    state?.offers?.map((val,i)=>{
+    
+        formdata.append('logo',val.logo)
+    
+    })
+
     let headers = {
       headers: {
         authorization: `Bearer ${currentUser?.token}`
